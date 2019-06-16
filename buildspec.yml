@@ -1,0 +1,20 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - npm install
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - ember test
+  build:
+    commands:
+      - ember build --prod
+  post_build:
+    commands:
+      - echo Build completed on `date`
+
+artifacts:
+  files:
+    - dist/**/*
