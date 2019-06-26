@@ -1,2 +1,45 @@
 @import "ember-mdi"
 @import "ember-bootstrap/bootstrap"
+
+body
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  background: #f1f1f1
+  color: #454545
+
+h1, h2, h3, h4, h5, h6, .navbar
+  font-family: 'Titillium Web', sans-serif
+  font-weight: 700
+
+.highlight
+  position: relative
+  font-style: normal
+
+.highlight::before
+  content: ""
+  display: block
+  position: absolute
+  width: 110%
+  z-index: -1
+  height: 40%
+  transform: translateX(-48%) translateY(-15%)
+  background: #ffd84a
+  margin: 0 0 0 50%
+  left: 0
+  bottom: 0
+
+#logo
+  width: 4rem
+  height: 2rem
+  fill: #454545
+
+#banner
+  padding: 10rem 0
+  h1
+    font-weight: 500
+    font-size: 3.5rem
+
+footer
+  padding: 5rem 0
+  background: #2c2929
+  color: #f1f1f1
