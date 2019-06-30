@@ -10,6 +10,9 @@ Router.map(function() {
   this.route('about');
   this.route('tech');
   this.route('transparency');
+
+  this.route('terms');
+  this.route('privacy');
 });
 
 export default Router;
