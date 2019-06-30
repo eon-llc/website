@@ -3,9 +3,10 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'website',
+    locationType: 'router-scroll',
+    historySupportMiddleware: true,
     environment,
     rootURL: '/',
-    locationType: 'auto',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
