@@ -9,7 +9,7 @@ const Router = EmberRouter.extend(RouterScroll, {
 
 Router.map(function() {
   this.route('about');
-  this.route('tech');
+  this.route('technology');
   this.route('transparency');
 
   this.route('terms');
