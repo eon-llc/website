@@ -13,7 +13,7 @@ const App = Application.extend({
 Route.reopen({
   activate: function() {
     this._super();
-    document.body.className = this.routeName;
+    document.body.className = this.routeName.replace(/\./g, '-').dasherize();
   }
 });
 
