@@ -1,0 +1,654 @@
+@import "ember-bootstrap/bootstrap"
+
+$grid-breakpoints: ("xs": 0, "sm": 600px, "md": 800px, "lg": 1000px, "xl": 1440px, "xxl": 1920px)
+
+/* -----------------------------
+  GENERAL STYLES
+  ----------------------------- */
+html
+  overflow-y: scroll
+  font-size: 16px
+
+body
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  background: #f1f1f1
+  background-image: url("/assets/images/dot_pattern.svg")
+  background-size: 100rem
+  background-position-y: -7%
+  color: #454545
+
+h1, h2, h3, h4, h5, h6, .navbar
+  font-family: 'Titillium Web', sans-serif
+  font-weight: 600
+
+a
+  color: #6772e5
+  transition: color 0.5s
+  font-weight: 500
+  &:hover
+    color: #32325d
+    transition: color 0.5s
+    text-decoration: none
+    .arrow
+      transform: translateX(0.5rem) translateY(-1px)
+      transition: transform 1s
+  .arrow
+    width: 1rem
+    height: auto
+    transform: translateX(0.1rem) translateY(-1px)
+    transition: transform 1s
+    .path
+      fill: none
+      stroke: #6772e5
+      stroke-width: 4
+      stroke-linecap: round
+      stroke-linejoin: round
+      stroke-miterlimit: 10
+
+a svg
+  transition: fill 0.5s
+
+a:hover svg
+  transition: fill 0.5s
+
+.btn
+  border: none
+  font-family: 'Titillium Web', sans-serif
+  font-weight: 700
+  text-transform: lowercase
+  &:active
+    outline: none
+
+.hide
+  display: none
+
+.card
+  background: #fff
+  border-radius: 1rem
+  padding: 2rem 2rem 2rem 2rem
+  border: none
+  p:last-of-type
+    margin: 0
+
+svg
+  .purple-fill
+    fill:#656fb1
+
+/* -----------------------------
+  HEADER
+  ----------------------------- */
+header
+  position: relative
+  overflow: hidden
+  #decor
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: -10
+    overflow: visible
+    #triangle
+      will-change: opacity, transform
+      position: absolute
+      top: 0
+      right: -5rem
+      opacity: 0
+      animation: 3s ease-out forwards triangle-animation, 3s ease-out forwards fade-in
+      animation-delay: 0.5s
+      width: 70rem
+      height: auto
+    #remme
+      stroke: #ab804b
+      stroke-dasharray: 40 10 20 30
+      stroke-linecap: round
+      stroke-width: 1
+      will-change: opacity, transform, stroke-dashoffset
+      animation: 20s ease-in-out infinite remme-hover, 10s linear infinite stroke-animation, 1s ease-out forwards fade-in
+      position: absolute
+      animation-delay: 3s
+      opacity: 0
+      top: 8rem
+      right: 5rem
+      width: 25rem
+      height: auto
+    #cube1
+      position: absolute
+      stroke-dasharray: 40 10 20 30
+      stroke-width: 4
+      will-change: transform
+      animation: 18s ease-in-out infinite cube1-hover, 10s linear infinite stroke-animation, 1s ease-out forwards fade-in
+      animation-delay: 4s
+      top: 6rem
+      right: 30rem
+      opacity: 0
+      width: 6.25rem
+      height: auto
+    #cube2
+      position: absolute
+      stroke-dasharray: 40 10 20 30
+      stroke-width: 5
+      will-change: transform
+      animation: 12s ease-in-out infinite cube2-hover, 10s linear infinite stroke-animation, 1s ease-out forwards fade-in
+      animation-delay: 5s
+      top: 12rem
+      right: 3rem
+      opacity: 0
+      width: 5rem
+      height: auto
+
+  #logo
+    width: 4rem
+    height: 2rem
+    fill: #454545
+
+  #logo:hover
+    fill: #6772e5
+
+  .navbar-nav .nav-link svg
+    fill: rgba(69, 69, 69, 0.7)
+
+  .navbar-nav .nav-link:hover svg
+    fill: rgba(69, 69, 69, 1)
+
+  .navbar-nav .nav-link
+    color: rgba(69, 69, 69, 0.7)
+    position: relative
+    font-weight: 600
+
+  .navbar-nav .nav-link.active
+    color: rgba(69, 69, 69, 1)
+
+  .navbar-nav .nav-link.active:not(.social)::after
+    opacity: 1
+    transform: translateX(-50%) translateY(0)
+
+  .navbar-nav .nav-link:not(.social):hover::after
+    opacity: 1
+    transform: translateX(-50%) translateY(0)
+    transition: all 1s
+
+  .navbar-expand-lg .navbar-nav .nav-link:not(.social)
+    padding-left: 1rem
+    padding-right: 1rem
+
+  .navbar-nav .blog
+    border-right: 2px solid rgba(124, 103, 49, 0.1)
+    padding-right: 0.5rem
+    margin-right: 1rem
+
+  .navbar-nav .nav-link:not(.social)::after
+    content: ""
+    width: 0.25rem
+    height: 0.25rem
+    background: #f1f1f1
+    border-radius: 100%
+    bottom: 0
+    left: 0
+    margin: 0 0 0 50%
+    transform: translateX(-50%) translateY(1rem)
+    display: block
+    opacity: 0
+    transition: all 1s
+
+body:not(.index) .navbar-nav .nav-link:not(.social)::after
+  background: #6772e5
+
+#banner
+  padding: 10rem 0
+  h1
+    font-weight: 400
+    font-size: 3.5rem
+    margin: 0 0 1rem 0
+    span
+      display: block
+  p
+    font-size: 1.1rem
+  #cta
+    margin: 1rem 0 0 0
+    position: relative
+    background: #6772e5
+    border-radius: 2rem
+    padding: 1.5rem 1.5rem
+    font-size: 1.5rem
+    line-height: 1rem
+    pointer-events: none
+    span
+      position: absolute
+      bottom: 0
+      left: 0
+      background: #ffffff
+      text-transform: uppercase
+      font-size: 0.7rem
+      color: #454545
+      transform: translateX(-50%) translateY(50%)
+      margin: 0 0 0 50%
+      white-space: nowrap
+      padding: 0.2rem 0.4rem
+      border-radius: 0.25rem
+      box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.1)
+/* -----------------------------
+  CONTENT
+  ----------------------------- */
+.home
+  p
+    font-size: 1.2rem
+    margin-bottom: 3rem
+
+.section
+  padding: 10rem 0
+  h2
+    margin: 0 0 3rem 0
+
+#blog
+  a
+    display: block
+    color: rgba(255,255,255,0.7)
+    font-weight: bold
+    padding: 2rem 0
+    background: #6772e5
+    transition: 0.5s background
+    span
+      font-weight: normal
+      margin: 0 0 0 1rem
+      color: #fff
+    &:hover
+      background: #5a65dd
+      transition: 0.5s background
+
+#about.section
+  background: #fff
+
+#transparency.section
+  background: #fff
+
+.content
+  background: #fff
+
+.quote
+  font-style: italic
+  color: #ff9d00
+  font-weight: 300
+  font-size: 2rem
+  font-family: 'Titillium Web', sans-serif
+  font-weight: 300
+  position: relative
+  border-left: 2px solid #f1f1f1
+  padding: 0 0 0 2rem
+  margin: -1rem 0 0 0
+
+#about
+  #intro
+    .foreword
+      font-size: 1.2rem
+
+  #team
+    background: #f1f1f1
+    background-image: url("/assets/images/dot_pattern.svg")
+    background-size: 100rem
+    background-position-y: -20rem
+    .member
+      flex: 1
+      display: flex
+      flex-direction: column
+      justify-content: flex-start
+      align-items: center
+      p
+        border-top: 2px solid #f1f1f1
+        padding: 2rem 0 0 0
+        margin: 2rem 0 0 0
+        width: 100%
+      .linked-in
+        position: absolute
+        bottom: 5%
+        right: 5%
+        background: #fff
+        border-radius: 100%
+        padding: 0.25rem
+        width: 2rem
+        height: 2rem
+        display: flex
+        justify-content: center
+        align-items: center
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.2)
+        transition: all 1s
+        transform: translateY(0)
+        &:hover
+          transition: all 1s
+          transform: translateY(-0.25rem)
+        svg
+          fill: #0069ff
+          height: 70%
+          width: 60%
+      span
+        display: block
+        margin: 0 auto 2rem auto
+        width: 9rem
+        height: 9rem
+        position: relative
+      img
+        width: 100%
+        height: auto
+        display: block
+        overflow: hidden
+        border-radius: 100%
+      h5, h3
+        text-align: center
+      h5
+        text-transform: uppercase
+        font-weight: bold
+        font-size: 0.8rem
+        background: #eee
+        display: inline-block
+        padding: 0.3rem 0.5rem
+        line-height: 0.9rem
+        border-radius: 0.25rem
+        margin: 0
+
+  #location
+    svg
+      width: 3rem
+      height: auto
+      margin: 0 0 1rem 0
+
+#transparency
+  #intro
+    .foreword
+      font-size: 1.2rem
+  #ownership
+    background: #f1f1f1
+    background-image: url("/assets/images/dot_pattern.svg")
+    background-size: 100rem
+    background-position-y: -20rem
+  #conduct
+    p
+      margin: 0 0 5rem 0
+    svg
+      width: 3rem
+      height: auto
+      margin: 0 0 1rem 0
+
+#technology
+  #intro
+    .foreword
+      font-size: 1.2rem
+  #links
+    background: #f1f1f1
+    background-image: url("/assets/images/dot_pattern.svg")
+    background-size: 100rem
+    background-position-y: -20rem
+    .definitions
+      margin: 5rem 0 0 0
+      flex-direction: row
+      padding: 2rem 0
+      flex: 1
+      .col-md-3
+        padding: 0
+      .wrap
+        height: 100%
+        padding: 0 2rem
+        &:not(.github)
+          border-right: 2px solid #f1f1f1
+        .graphic
+          width: 8rem
+          height: auto
+          margin: 0 auto -3rem auto
+          display: block
+          transform: translateY(-4.5rem)
+          transition: 1s all
+        &:hover
+          .graphic
+            transform: translateY(-5.5rem)
+            transition: 1s all
+  #security
+    .wrap
+      padding: 0 2rem
+      h4
+        text-align: center
+      svg
+        width: 40%
+        margin: 0 auto
+        display: block
+
+
+/* -----------------------------
+  FOOTER
+  ----------------------------- */
+footer
+  padding: 5rem 0
+  background: #2c2929
+  color: #736b63
+
+  a
+    color: #736b63
+
+  a:hover
+    color: #f1f1f1
+
+  h5
+    padding: 0 1rem
+    text-transform: uppercase
+    font-size: 0.9rem
+    color: #c7c3bc
+
+  ul
+    list-style: none
+    padding: 0
+
+  svg
+    width: 5rem
+    height: auto
+    fill: #ffba00
+    margin-bottom: 1rem
+
+/* -----------------------------
+  MEDIA QUERIES
+  ----------------------------- */
+@include media-breakpoint-down(md)
+  header
+    #decor
+      #triangle
+        right: -20rem
+      #remme
+        right: -7rem
+      #cube1
+        display: none
+      #cube2
+        display: none
+
+@include media-breakpoint-down(sm)
+  header
+    #decor
+      #triangle
+        right: -33rem
+      #remme
+        display: none
+
+  #banner
+    padding: 1rem 0 5rem 0
+    h1
+      font-size: 3rem
+    #cta
+      margin: 2rem auto 0 auto
+      display: block
+      width: 12rem
+  .section
+    padding: 5rem 0
+
+  .quote
+    border: none
+    margin: 2rem 0 0 0
+    padding: 0
+
+  #technology
+    #links
+      .definitions
+        .wrap
+          margin: 0 0 8rem 0
+          &:not(.github)
+            border: none
+          &.github
+            margin: 0
+    #security
+      .wrap
+        margin: 0 0 3rem 0
+        svg
+          width: 60%
+        h4
+          text-align: left
+
+  footer
+    .copyright
+      display: flex
+      justify-content: center
+      flex-direction: column
+      align-items: center
+      padding: 0 0 2rem 0
+    ul.nav
+      margin: 0 0 2rem 0
+
+#mobile-toggle
+  border: none
+  background: rgba(255,255,255,0)
+  z-index: 1000
+  &:focus
+    outline: none
+  svg
+    width: 4rem
+    height: auto
+    .upper, .lower, .middle
+      stroke: #454545
+      stroke-width: 4px
+      stroke-linecap: round
+      fill: transparent
+      transition: 0.25s ease-in-out stroke-dashoffset, stroke-dasharray, stroke
+    .middle
+      stroke-dasharray: 40
+      stroke-dashoffset: 0
+    .upper
+      stroke-dasharray: 250
+      stroke-dashoffset: 210
+    .lower
+      stroke-dasharray: 360
+      stroke-dashoffset: 320
+  &.open
+    svg
+      .upper, .lower, .middle
+        stroke: #fff
+        transition: 0.25s stroke-dashoffset, stroke-dasharray, stroke
+      .upper
+        stroke-dasharray: 50 300
+        stroke-dashoffset: -222
+      .middle
+        stroke-dasharray: 100
+        stroke-dashoffset: -40
+      .lower
+        stroke-dasharray: 50 300
+        stroke-dashoffset: -281
+
+#mobile-nav
+  z-index: 100
+  width: 100%
+  height: 100vh
+  background: #6772e5
+  position: fixed
+  top: 0
+  transform: translateX(100%)
+  opacity: 0
+  will-change: opacity, transform
+  transition: 0.5s all
+  .navbar-nav
+    padding: 6rem 4rem 4rem 4rem
+    a
+      color: #fff
+      font-family: 'Titillium Web', sans-serif
+      font-weight: 400
+      font-size: 1.8rem
+      line-height: 2rem
+      margin: 0 0 1rem 0
+      &.active, &:hover
+        color: #ffba00
+
+#mobile-nav.show
+  transform: translateX(0)
+  opacity: 1
+  will-change: opacity, transform
+  transition: 0.5s all
+
+/* -----------------------------
+  ANIMATIONS
+  ----------------------------- */
+.from-left-slide-fade
+  will-change: transform, opacity
+  animation: 2s ease-out forwards slide-in-from-left, 2s ease-out forwards fade-in
+
+.from-right-slide-fade
+  will-change: transform, opacity
+  animation: 2s ease-out forwards slide-in-from-right, 2s ease-out forwards fade-in
+
+[class*="delay"]
+  opacity: 0
+
+.delay-1
+  animation-delay: 1s
+
+.delay-2
+  animation-delay: 2s
+
+.delay-3
+  animation-delay: 3s
+
+@keyframes remme-hover
+  0%
+    transform: translateY(0rem) rotateZ(360deg)
+  50%
+    transform: translateY(7rem) rotateZ(360deg)
+  100%
+    transform: translateY(0rem) rotateZ(360deg)
+
+@keyframes cube1-hover
+  0%
+    transform: translateY(0rem) rotateZ(360deg) rotate(-30deg)
+  50%
+    transform: translateY(6rem) rotateZ(360deg) rotate(-30deg)
+  100%
+    transform: translateY(0rem) rotateZ(360deg) rotate(-30deg)
+
+@keyframes cube2-hover
+  0%
+    transform: translateY(0rem) rotateZ(360deg) rotate(30deg)
+  50%
+    transform: translateY(4rem) rotateZ(360deg) rotate(30deg)
+  100%
+    transform: translateY(0rem) rotateZ(360deg) rotate(30deg)
+
+@keyframes stroke-animation
+  0%
+    stroke-dashoffset: 0
+  100%
+    stroke-dashoffset: 100
+
+@keyframes triangle-animation
+  from
+    transform: translateX(100%) translateY(-42%) rotateZ(360deg) rotate(10deg)
+  to
+    transform: translateX(28%) translateY(-42%) rotateZ(360deg) rotate(-65deg)
+
+@keyframes fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes slide-in-from-left
+  from
+    transform: translateX(-2rem) rotateZ(360deg)
+  to
+    transform: translateX(0rem) rotateZ(360deg)
+
+@keyframes slide-in-from-right
+  from
+    transform: translateX(2rem) rotateZ(360deg)
+  to
+    transform: translateX(0rem) rotateZ(360deg)
