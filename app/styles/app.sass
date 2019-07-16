@@ -241,27 +241,84 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
   h2
     margin: 0 0 3rem 0
 
-#blog
-  a
+#highlight
+  display: flex
+  flex-direction: row
+  background: #6772e5
+  color: #fff
+  .failed
+    text-align: center
+    font-weight: bold
+    color: #c1c7ff
+    padding: 4rem 0
+    width: 570px
     display: block
+  .label, .title
+    display: block
+  .label
+    text-transform: uppercase
+    font-weight: 600
+    color: #c1c7ff
+    font-family: 'Titillium Web', sans-serif
+    font-size: 0.9rem
+    margin: 0 0 0.5rem 0
+  .wrap
+    padding: 2rem 0
+    width: 570px
+    display: block
+  .blog
+    width: 50%
+    display: flex
+    flex-direction: row
+    justify-content: flex-end
     color: rgba(255,255,255,0.7)
     font-weight: bold
-    padding: 2rem 0
     background: #6772e5
     transition: 0.5s background
-    span
-      font-weight: normal
-      margin: 0 0 0 1rem
+    .title
+      font-size: 1.5rem
+      font-weight: 400
       color: #fff
-    &:hover
-      background: #5a65dd
-      transition: 0.5s background
-
-#about.section
-  background: #fff
-
-#transparency.section
-  background: #fff
+    .author, .date
+      font-weight: 400
+      color: #eaecff
+    a
+      width: 100%
+      display: flex
+      flex-direction: row
+      justify-content: flex-end
+      &:hover
+        background: #5a65dd
+        transition: 0.5s background
+  .github
+    width: 50%
+    display: flex
+    flex-direction: row
+    align-content: center
+    padding: 0 0 0 2rem
+    .wrap
+      display: flex
+      flex-direction: column
+      .items
+        display: flex
+        flex-direction: row
+        justify-content: flex-start
+        .item
+          display: flex
+          flex-direction: column
+          justify-content: center
+          align-items: center
+          padding: 0 4rem 0 0
+          font-weight: 600
+          color: #c1c7ff
+          font-family: 'Titillium Web', sans-serif
+          span
+            font-size: 2rem
+            line-height: 2rem
+            color: #fff
+          strong
+            text-transform: uppercase
+            font-size: 1rem
 
 .content
   background: #fff
@@ -278,6 +335,23 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
   padding: 0 0 0 2rem
   margin: -1rem 0 0 0
 
+#summary
+  background: #fff
+  h3
+    margin: 0 0 1rem 0
+  .item
+    padding: 5rem 0
+    &.about
+      padding-right: 3rem
+    &.technology
+      padding: 5rem 3rem
+      border-right: 1px solid #eee
+      border-left: 1px solid #eee
+    &.transparency
+      padding-left: 3rem
+
+// separate content pages
+// about page
 #about
   #intro
     .foreword
@@ -352,6 +426,7 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       height: auto
       margin: 0 0 1rem 0
 
+// transparency page
 #transparency
   #intro
     .foreword
@@ -369,6 +444,7 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       height: auto
       margin: 0 0 1rem 0
 
+// technology page
 #technology
   #intro
     .foreword
