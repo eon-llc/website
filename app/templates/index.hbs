@@ -1,51 +1,68 @@
-<div id="blog" class="hide">
-	<a href="" target="_blank" rel="noopener noreferrer">
-		<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-12">
-					Latest Blog Post:<span></span>
+<div id="highlight">
+
+	<div class="blog">
+		{{#if model.blog_post }}
+			<a href="{{ model.blog_post.url }}" target="_blank" rel="noopener noreferrer">
+				<div class="wrap">
+					<span class="label">Latest Blog Post:</span>
+					<span class="title">{{ model.blog_post.title }}</span>
+					<span class="author">by {{ model.blog_post.author }}</span>
+					<span class="date"> on {{ model.blog_post.date }}</span>
+				</div>
+			</a>
+		{{else}}
+			<div class="failed">Failed to retrieve data.</div>
+		{{/if}}
+	</div>
+
+	<div class="github">
+		{{#if model.github_stats }}
+			<div class="wrap">
+				<span class="label">GitHub Stats:</span>
+				<div class="items">
+					<div class="item">
+						<span>{{ model.github_stats.num_repos }}</span>
+						<strong>Repos</strong>
+					</div>
+					<div class="item">
+						<span>{{ model.github_stats.num_commits }}</span>
+						<strong>Commits</strong>
+					</div>
+					<div class="item">
+						<span>{{ model.github_stats.num_issues }}</span>
+						<strong>Issues</strong>
+					</div>
 				</div>
 			</div>
-		</div>
-	</a>
+		{{else}}
+			<div class="failed">Failed to retrieve data.</div>
+		{{/if}}
+	</div>
+
 </div>
 
-<div id="about" class="section">
+<div id="summary">
 	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-7 text-center">
-				<h2>About Us</h2>
-				<p>Eon strives to be the most transparent block producer on REM chain. Involved in Remme community from the very beginning, we strive to contribute with integrity and honesty in mind.</p>
+		<div class="row">
+			<div class="col-12 col-md-4 item about">
+				<h3>About Us</h3>
+				<p>Eon is proud to be the first and most transparent block producer on REM chain. Every part of our business is verifiable.</p>
 				{{#link-to "about"}}
 					Get to know us
 					<svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg>
 				{{/link-to}}
 			</div>
-		</div>
-	</div>
-</div>
-
-<div id="tech" class="section">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-7 text-center">
-				<h2>Technology</h2>
-				<p>Hosted on AWS, we develop our infrastructure and code in accordance with best industry practices. Security and decentralization are the underlying principles of our philosophy.</p>
+			<div class="col-12 col-md-4 item technology">
+				<h3>Technology</h3>
+				<p>Hosted on AWS, we develop our infrastructure and code in accordance with best industry practices.</p>
 				{{#link-to "technology"}}
 					Technology that powers us
 					<svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg>
 				{{/link-to}}
 			</div>
-		</div>
-	</div>
-</div>
-
-<div id="transparency" class="section">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-12 col-md-7 text-center">
-				<h2>Transparency</h2>
-				<p>Our infrastructure as code makes it possible for anyone to verify the design and security of our architecture. In addition, all of the code we ever produce as part of our duties will be made public and open source.</p>
+			<div class="col-12 col-md-4 item transparency">
+				<h3>Transparency</h3>
+				<p>Our infrastructure as code makes it possible for anyone to verify the design and security of our architecture.</p>
 				{{#link-to "transparency"}}
 					Our guiding principles
 					<svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg>
