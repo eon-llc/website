@@ -557,6 +557,36 @@ footer
     margin: 2rem 0 0 0
     padding: 0
 
+  #highlight
+    flex-direction: column
+    .blog, .github
+      width: 100%
+      padding: 0
+    .blog
+      border-bottom: 1px solid #747fe6
+      .title
+        font-size: 1.25rem
+      .author, .date
+        font-size: 0.9rem
+    .github
+      .wrap
+        .items
+          justify-content: space-between
+          .item
+            padding: 0
+    .wrap
+      padding: 2rem
+
+  #summary
+    .container
+      .item
+        border-left: none
+        border-right: none
+        padding: 2rem
+        &.technology
+          border-top: 1px solid #eee
+          border-bottom: 1px solid #eee
+
   #technology
     #links
       .definitions
