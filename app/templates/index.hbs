@@ -2,7 +2,7 @@
 
 	<div class="blog">
 		{{#if model.blog_post }}
-			<a href="{{ model.blog_post.url }}" target="_blank" rel="noopener noreferrer">
+			<a href={{ model.blog_post.url }} target="_blank" rel="noopener noreferrer">
 				<div class="wrap">
 					<span class="label">Latest Blog Post:</span>
 					<span class="title">{{ model.blog_post.title }}</span>
