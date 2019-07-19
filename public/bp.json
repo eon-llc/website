@@ -5,11 +5,11 @@
         "website": "https://eon.llc",
         "code_of_conduct": "https://eon.llc/transparency#conduct",
         "ownership_disclosure": "https://eon.llc/transparency#ownership",
-        "email": "",
+        "email": "support@eon.llc",
         "branding": {
-            "logo_256": "",
-            "logo_1024": "",
-            "logo_svg": ""
+            "logo_256": "https://eon.llc/assets/images/eon_logo_256.png",
+            "logo_1024": "https://eon.llc/assets/images/eon_logo_1024.png",
+            "logo_svg": "https://eon.llc/assets/images/eon_logo.svg"
         },
         "location": {
             "name": "Connecticut",
