@@ -7,9 +7,9 @@
         "ownership_disclosure": "https://eon.llc/transparency#ownership",
         "email": "",
         "branding": {
-            "logo_256": "",
-            "logo_1024": "",
-            "logo_svg": ""
+            "logo_256": "https://eon.llc/assets/images/eon_logo_256.png",
+            "logo_1024": "https://eon.llc/assets/images/eon_logo_1024.png",
+            "logo_svg": "https://eon.llc/assets/images/eon_logo.svg"
         },
         "location": {
             "name": "Connecticut",
