@@ -29,5 +29,15 @@
             "wechat": ""
         }
     },
-    "nodes": []
+    "nodes": [
+        {
+            "location": {
+                "name": "primary",
+                "country": "US",
+                "latitude": 38.0700,
+                "longitude": -79.6710
+            },
+            "node_type": "producer"
+        },
+    ]
 }
