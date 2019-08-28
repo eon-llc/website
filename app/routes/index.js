@@ -21,7 +21,7 @@ export default Route.extend({
 		};
 
 		let githubPromise = function() {
-			return fetch('https://wlal2jacbk.execute-api.us-east-1.amazonaws.com/v1/github')
+			return fetch('https://api.eon.llc/v1/github')
 			.then((data) => data.json())
 			.then((resp) => {
 				return JSON.parse(resp.body);

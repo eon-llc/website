@@ -1,5 +1,5 @@
 {
-    "producer_account_name": "eon",
+    "producer_account_name": "eonblockprod",
     "org": {
         "candidate_name": "eon",
         "website": "https://eon.llc",
@@ -15,18 +15,11 @@
             "name": "Connecticut",
             "country": "US",
             "latitude": 41.6032,
-            "longitude": 73.0877
+            "longitude": -73.0877
         },
         "social": {
-            "steemit": "",
             "twitter": "eon_llc",
-            "youtube": "",
-            "facebook": "",
-            "github": "eon-llc",
-            "reddit": "",
-            "keybase": "",
-            "telegram": "",
-            "wechat": ""
+            "github": "eon-llc"
         }
     },
     "nodes": [
@@ -39,5 +32,16 @@
             },
             "node_type": "producer"
         },
+        {
+            "location": {
+                "name": "primary",
+                "country": "US",
+                "latitude": 38.0700,
+                "longitude": -79.6710
+            },
+            "node_type": "full",
+            "api_endpoint": "http://rem.eon.llc",
+            "ssl_endpoint": "https://rem.eon.llc"
+        }
     ]
 }
