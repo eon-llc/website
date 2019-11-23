@@ -14,7 +14,11 @@ Router.map(function() {
 
   this.route('terms');
   this.route('privacy');
-  this.route('test');
+
+  this.route('rem', function() {
+    this.route('permissions');
+    this.route('benchmarks');
+  });
 });
 
 export default Router;
