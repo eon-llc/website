@@ -1,0 +1,37 @@
+<div id="rem-benchmarks" class="content">
+
+    <div class="section chart">
+        <div class="container">
+            <form class="form-inline toolbar">
+                <label for="epoch" class="mr-2 d-none d-md-block">Time Frame:</label>
+                <select id="epoch" onchange={{action "updateEpoch" value="target.value"}} class="form-control mr-4">
+                    {{#if epochs}}
+                        {{#each epochs as |e|}}
+                            <option value={{e}} selected={{eq epoch e}}>{{e}}</option>
+                        {{/each}}
+                    {{else}}
+                        <option value="" selected="selected">Loading&hellip;</option>
+                    {{/if}}
+                </select>
+                <button class="btn btn-primary toggle" type="submit" {{action "toggle"}}>Toggle all</button>
+                <span class="count ml-auto d-none d-md-block">
+                    <span class="badge badge-pill badge-primary">{{num_results}}</span> results
+                </span>
+            </form>
+            {{ember-chart type="line" data=chart_data options=chart_options}}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
+                    <p>Contract used to calculate CPU performance for this benchmark is available on <a href="https://github.com/eon-llc/rem-benchmark" target="_blank" rel="noopener noreferrer">GitHub</a>. This benchmark is not an absolute indication of block producer performance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
