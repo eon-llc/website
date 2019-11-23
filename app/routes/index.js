@@ -1,37 +1,64 @@
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
+import axios from 'axios';
 
 export default Route.extend({
 	model() {
-		let blogPromise = function() {
-			return fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/eon-llc')
-				.then((res) => res.json())
-				.then((data) => {
-					let latest = data.items[0];
-					let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-					let date = new Date(latest.pubDate);
 
-					return {
-						url: latest.link,
-						title: latest.title,
-						author: latest.author,
-						date: months[date.getMonth()] + " " + date.getDay() + ", " + date.getFullYear(),
-					}
-				});
+		let blogPromise = async () => {
+			return await axios({
+					method: 'get',
+					url: 'https://api.eon.llc/v1/blog',
+					timeout: 1500
+				})
+				.then((response) => {
+					return JSON.parse(response.data.body);
+				})
+				.catch(() => { return false; });
 		};
 
-		let githubPromise = function() {
-			return fetch('https://api.eon.llc/v1/github')
-			.then((data) => data.json())
-			.then((resp) => {
-				return JSON.parse(resp.body);
+		let githubPromise = async () => {
+			return await axios({
+					method: 'get',
+					url: 'https://api.eon.llc/v1/github',
+					timeout: 1500
+				})
+			.then((response) => {
+				return JSON.parse(response.data.body);
 			})
-			.catch(() => { return false; })
+			.catch(() => { return false; });
+		};
+
+		let apiPromise = async () => {
+			return await axios({
+					method: 'get',
+					url: 'https://rem.eon.llc/v2/health',
+					timeout: 1500
+				})
+				.then((response) => {
+					let required = 4;
+					let { health } = response.data;
+					let healthy = 0;
+
+					for(let service in health) {
+						healthy += health[service].status === "OK" ? 1 : 0
+					}
+
+					if(healthy == required) {
+						return "online"
+					} else if(healthy > 0) {
+						return "impaired"
+					} else {
+						return "offline"
+					}
+				})
+				.catch(() => { return "offline"; });
 		};
 
 		return new RSVP.hash({
-			blog_post: blogPromise(),
-			github_stats: githubPromise()
+			blog_stats: blogPromise(),
+			github_stats: githubPromise(),
+			api_status: apiPromise()
 		});
 	}
 });
