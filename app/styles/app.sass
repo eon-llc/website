@@ -104,6 +104,15 @@ svg
   .purple-fill
     fill:#656fb1
 
+.copy-btn
+  &.unstyled
+    border: none
+    padding: 0
+    background: transparent
+    display: inline-flex
+    &:active
+      outline: none
+
 /* -----------------------------
   HEADER
   ----------------------------- */
@@ -389,23 +398,28 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
   .container
     padding: 0
   .status
-    margin-left: 0.5rem
-    display: inline-block
-    width: 0.5rem
-    height: 0.5rem
-    border-radius: 0.25rem
-    &.online
-      background: #6bc507
-    &.impaired
-      background: #f3a009
-    &.offline
-      background: #e80303
+    padding: 0.5rem
+    display: flex
+    cursor: pointer
+    .circle
+      display: inline-block
+      width: 0.5rem
+      height: 0.5rem
+      border-radius: 0.25rem
+      &.online
+        background: #6bc507
+      &.impaired
+        background: #f3a009
+      &.offline
+        background: #e80303
   li
     &:not(:last-child)
       border-bottom: 2px solid #f1f1f1
-    a
+    .block
       display: block
       padding: 2rem 0
+      strong
+        color: $primary
       p
         color: #32325d
     &.publications
