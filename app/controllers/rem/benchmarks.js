@@ -53,8 +53,6 @@ export default Controller.extend({
                 }]
             }
         };
-
-        this.send('getEpochs');
     },
     generateColor: function() {
         var letters = '0123456789ABCDEF';
