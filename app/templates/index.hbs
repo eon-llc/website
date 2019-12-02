@@ -1,13 +1,13 @@
 <div id="highlight">
 
 	<div class="blog">
-		{{#if model.blog_post }}
-			<a href={{ model.blog_post.url }} target="_blank" rel="noopener noreferrer">
+		{{#if model.blog_stats }}
+			<a href={{ model.blog_stats.url }} target="_blank" rel="noopener noreferrer">
 				<div class="wrap">
 					<span class="label">Latest Blog Post:</span>
-					<span class="title">{{ model.blog_post.title }}</span>
-					<span class="author">by {{ model.blog_post.author }}</span>
-					<span class="date"> on {{ model.blog_post.date }}</span>
+					<span class="title">{{ model.blog_stats.title }}</span>
+					<span class="author">by {{ model.blog_stats.author }}</span>
+					<span class="date"> on {{ model.blog_stats.date }}</span>
 				</div>
 			</a>
 		{{else}}
@@ -67,6 +67,68 @@
 					Our guiding principles
 					<svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg>
 				{{/link-to}}
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="projects">
+	<div class="container">
+		<div class="card">
+			<div class="row">
+				<div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-start overview">
+					<h4>Our Projects</h4>
+
+					<p>These projects are our contributions to Remme community and ecosystem. We strive to support users, Guardians and Block Producers equally.</p>
+
+					<p>Every vote helps us fund the maintenance of existing projects and development of new ones.</p>
+
+					<a href={{voteURL}} class="btn btn-primary mt-3">
+						Vote for Eon
+					</a>
+
+				</div>
+				<div class="col-12 col-md-5 offset-md-1 items">
+					<ul class="list-unstyled">
+						<li class="api">
+							<div class="block">
+								<div class="d-flex flex-row align-items-center">
+									<strong>REM chain API</strong>
+									<a href="https://rem.eon.llc/v2/health" target="_blank" rel="noopener noreferrer">
+										<span class="status">
+											<span class="circle {{model.api_status }}"></span>
+											<BsTooltip @title={{model.api_status }} />
+										</span>
+									</a>
+								</div>
+								<p>
+									Use <code>https://rem.eon.llc</code> or <a href="https://rem.eon.llc/v2/docs/index.html" target="_blank" rel="noopener noreferrer">read the docs</a>.
+								</p>
+							</div>
+						</li>
+						<li class="benchmark">
+							{{#link-to "rem.benchmarks" class="block"}}
+								<strong>Block Producer Benchmark</strong>
+								<p>See how BP performance stacks up.</p>
+							{{/link-to}}
+						</li>
+						<li class="permissions">
+							{{#link-to "rem.permissions" class="block"}}
+								<strong>Account Permissions Check</strong>
+								<p>See a detailed breakdown of account permissions.</p>
+							{{/link-to}}
+						</li>
+						<li class="publications">
+							<a href="https://medium.com/eon-llc" class="block" target="_blank" rel="noopener noreferrer">
+								<div class="d-flex flex-row align-items-center">
+									<strong>Educational Publications:</strong>
+									<span>{{ model.blog_stats.tutorials }}</span>
+								</div>
+								<p>Learn core concepts of REM chain.</p>
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -5,6 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'website',
     locationType: 'router-scroll',
     historySupportMiddleware: true,
+    podModulePrefix: 'app/components',
     environment,
     rootURL: '/',
     EmberENV: {
@@ -21,6 +22,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      voteURL: 'https://testchain.remme.io/wallet',
     }
   };
 
