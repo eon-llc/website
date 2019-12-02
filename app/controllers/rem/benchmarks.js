@@ -4,6 +4,7 @@ import { observer } from '@ember/object';
 export default Controller.extend({
     queryParams: ['epoch'],
     epoch: null,
+    interval: "N/A",
     num_results: 0,
 
     chartData: observer('epoch', function() {
@@ -76,6 +77,7 @@ export default Controller.extend({
             fetch('//52.0.126.177/benchmarks/' + this.get('epoch'))
             .then((res) => res.json())
             .then((data) => {
+                this.set('interval', data.interval);
                 const benchmarks = data.benchmarks || [];
                 let chart_data = {labels: [], datasets: [], fill: false};
                 let timeline = [];
