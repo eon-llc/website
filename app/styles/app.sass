@@ -244,31 +244,33 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
   p
     font-size: 1.1rem
     margin: 0 0 2rem 0
-  #cta
-    position: relative
-    border-radius: 2rem
-    padding: 1rem 1.5rem
-    font-size: 1.5rem
-    line-height: 1rem
-    pointer-events: none
-    span
-      position: absolute
-      bottom: 0
-      left: 0
-      background: #ffffff
-      text-transform: uppercase
-      font-size: 0.7rem
-      color: #454545
-      transform: translateX(-50%) translateY(50%)
-      margin: 0 0 0 50%
-      white-space: nowrap
-      padding: 0.2rem 0.4rem
-      border-radius: 0.25rem
-      box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.1)
-  .why
-    margin: 0 0 0 1.5rem
-    font-weight: bold
-    border-bottom: 2px solid $primary
+  .cta-wrap
+    justify-content: flex-start
+    #cta
+      position: relative
+      border-radius: 2rem
+      padding: 1rem 1.5rem
+      font-size: 1.5rem
+      line-height: 1rem
+      pointer-events: none
+      span
+        position: absolute
+        bottom: 0
+        left: 0
+        background: #ffffff
+        text-transform: uppercase
+        font-size: 0.7rem
+        color: #454545
+        transform: translateX(-50%) translateY(50%)
+        margin: 0 0 0 50%
+        white-space: nowrap
+        padding: 0.2rem 0.4rem
+        border-radius: 0.25rem
+        box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.1)
+    .why
+      margin: 0 0 0 1.5rem
+      font-weight: bold
+      border-bottom: 2px solid $primary
 /* -----------------------------
   CONTENT
   ----------------------------- */
@@ -593,7 +595,7 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       svg
         margin: 0 1rem 0 0
         fill: #5b63bf
-    label, .count
+    label, .count, .interval
       font-weight: bold
       color: #797979
   #result
@@ -724,9 +726,11 @@ footer
     padding: 1rem 0 5rem 0
     h1
       font-size: 3rem
-    #cta
-      display: block
-      width: 12rem
+    .cta-wrap
+      justify-content: center
+      #cta
+        display: block
+        width: 12rem
   .section
     padding: 5rem 0
 
