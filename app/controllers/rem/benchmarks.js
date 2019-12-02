@@ -53,8 +53,6 @@ export default Controller.extend({
                 }]
             }
         };
-
-        this.send('getEpochs');
     },
     generateColor: function() {
         var letters = '0123456789ABCDEF';
@@ -66,7 +64,7 @@ export default Controller.extend({
     },
     actions: {
         getEpochs() {
-            fetch('//52.0.126.177/epochs')
+            fetch('https://api.eon.llc/v1/benchmarks/epochs')
             .then((res) => res.json())
             .then((data) => {
                 if(!this.get('epoch')) { this.set('epoch', data[0]); }
@@ -74,7 +72,7 @@ export default Controller.extend({
             });
         },
         getChartData() {
-            fetch('//52.0.126.177/benchmarks/' + this.get('epoch'))
+            fetch('https://api.eon.llc/v1/benchmarks/benchmarks?epoch=' + this.get('epoch'))
             .then((res) => res.json())
             .then((data) => {
                 this.set('interval', data.interval);
