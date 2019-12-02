@@ -18,7 +18,7 @@ export default Controller.extend({
 
                 axios({
                     method: 'post',
-                    url: '//rem.eon.llc/v1/chain/get_account',
+                    url: 'https://rem.eon.llc/v1/chain/get_account',
                     data: {
                         "account_name" : account_name
                     }
@@ -28,7 +28,7 @@ export default Controller.extend({
 
                         axios({
                             method: 'get',
-                            url: `//rem.eon.llc/v2/history/get_actions?account=${account_name}&filter=rem:linkauth`
+                            url: `https://rem.eon.llc/v2/history/get_actions?account=${account_name}&filter=rem:linkauth`
                         })
                         .then((linkauth) => {
 
