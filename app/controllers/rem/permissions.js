@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import axios from 'axios';
+import { htmlSafe } from '@ember/template';
 import ENV from 'website/config/environment';
 
 export default Controller.extend({
@@ -132,8 +133,11 @@ export default Controller.extend({
                 uniques.push(key);
             } else {
                 if(!seen.includes(key)) {
-                    warnings.push(`<p>${key} <strong>key is used for more than one permission</strong>. <a href="https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#8a1e" target="_blank" rel="noopener noreferrer">How to fix <svg class="icon" viewBox="0 0 24 24">
-    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg></a></p>`)
+
+                    warnings.push({
+                        message: htmlSafe(`${key} <strong>key is used for more than one permission</strong>.`),
+                        fix_url: 'https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#8a1e'
+                    })
                     seen.push(key);
                 }
             }
@@ -145,8 +149,10 @@ export default Controller.extend({
         let warnings = [];
 
         if(!has_multisig && !has_transfer_perm) {
-            warnings.push(`<p><strong>Protect token transfers</strong> with multisig or a separate permission. <a href="https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#2bdb" target="_blank" rel="noopener noreferrer">How to fix <svg class="icon" viewBox="0 0 24 24">
-<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg></a></p>`)
+            warnings.push({
+                message: htmlSafe('<strong>Protect token transfers</strong> with multisig or a separate permission.'),
+                fix_url: 'https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#2bdb'
+            })
         }
 
         return warnings;
