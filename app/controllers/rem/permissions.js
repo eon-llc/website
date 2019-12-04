@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import axios from 'axios';
+import { htmlSafe } from '@ember/template';
 import ENV from 'website/config/environment';
 
 export default Controller.extend({
@@ -12,6 +13,7 @@ export default Controller.extend({
         parse(account_name) {
             if(account_name && account_name.length === 12) {
 
+                let warnings = [];
                 let permissions = {};
                 this.set('account', account_name.toLowerCase());
                 this.set('error', false);
@@ -84,6 +86,15 @@ export default Controller.extend({
                                 }
                             }
 
+                            let keys = JSON.stringify(permissions).match(/EOS[a-zA-Z0-9]*/g);
+
+                            let has_multisig = JSON.stringify(permissions).match(/"threshold":[2-9]/g) || false;
+                            let has_transfer_perm = JSON.stringify(permissions).includes('"code":"rem.token","type":"transfer"');
+
+                            warnings = warnings.concat(this.findDuplicateKeys(keys));
+                            warnings = warnings.concat(this.formatTransferWarning(has_multisig, has_transfer_perm));
+
+                            this.set('warnings', warnings);
                             this.set('permissions', permissions);
                         })
                         .catch(() => { this.set('error', "Failed to fetch all data, try again."); });
@@ -111,5 +122,39 @@ export default Controller.extend({
         }
 
         return obj;
+    },
+    findDuplicateKeys(keys) {
+        let uniques = [];
+        let seen = [];
+        let warnings = [];
+
+        keys.forEach(key => {
+            if(!uniques.includes(key)) {
+                uniques.push(key);
+            } else {
+                if(!seen.includes(key)) {
+
+                    warnings.push({
+                        message: htmlSafe(`${key} <strong>key is used for more than one permission</strong>.`),
+                        fix_url: 'https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#8a1e'
+                    })
+                    seen.push(key);
+                }
+            }
+        });
+
+        return warnings;
+    },
+    formatTransferWarning(has_multisig, has_transfer_perm) {
+        let warnings = [];
+
+        if(!has_multisig && !has_transfer_perm) {
+            warnings.push({
+                message: htmlSafe('<strong>Protect token transfers</strong> with multisig or a separate permission.'),
+                fix_url: 'https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#2bdb'
+            })
+        }
+
+        return warnings;
     }
 });
