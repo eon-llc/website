@@ -1,11 +1,12 @@
 import Controller from '@ember/controller';
+import { htmlSafe } from '@ember/template';
 import { observer } from '@ember/object';
+import { set } from '@ember/object';
 
 export default Controller.extend({
     queryParams: ['epoch'],
     epoch: null,
     interval: "N/A",
-    num_results: 0,
 
     chartData: observer('epoch', function() {
         this.send('getChartData');
@@ -19,6 +20,9 @@ export default Controller.extend({
         this.chart_options = {
             responsive: true,
             spanGaps: false,
+            legend: {
+                display: false
+            },
             title: {
                 display: true,
                 text: 'CPU Benchmark (lower is better)'
@@ -77,7 +81,7 @@ export default Controller.extend({
             .then((data) => {
                 this.set('interval', data.interval);
                 const benchmarks = data.benchmarks || [];
-                let chart_data = {labels: [], datasets: [], fill: false};
+                let chart_data = this.get('chart_data') || {labels: [], datasets: [], fill: false};
                 let timeline = [];
                 let producers = [];
 
@@ -121,31 +125,48 @@ export default Controller.extend({
                         producer_timeline.push(null);
                     }
 
-                    chart_data.datasets.push({
-                        label: producers[i],
-                        backgroundColor: color,
-                        borderColor: color,
-                        data: producer_timeline,
-                        fill: false,
-                    });
+                    if(this.get('chart_data')) {
+                        for(let d=0; d<chart_data.datasets.length; d++) {
+                            if(chart_data.datasets[d].label === producers[i]) {
+                                chart_data.datasets[d].data = producer_timeline;
+                            }
+                        }
+                    } else {
+                        chart_data.datasets.push({
+                            label: producers[i],
+                            hidden: false,
+                            marker: htmlSafe("background-color: " + color),
+                            backgroundColor: color,
+                            borderColor: color,
+                            data: producer_timeline,
+                            fill: false,
+                        });
+                    }
                 }
 
                 chart_data.labels = timeline;
+
                 this.set('chart_data', chart_data);
-                this.set('num_results', benchmarks.length);
+                this.set('num_results', chart_data.datasets.filter(ds => !ds.hidden).reduce((a, b) => a + b.data.length, 0));
+                this.notifyPropertyChange('chart_data');
             });
         },
         updateEpoch(value) {
             this.preserveScrollPosition = true;
             this.set('epoch', value);
         },
-        toggle() {
+        toggle(target) {
             let chart_data = this.get('chart_data');
 
             chart_data.datasets.forEach(function(ds) {
-                ds.hidden = !ds.hidden;
+                if(target) {
+                    if(target === ds.label){ set(ds, "hidden", !ds.hidden); }
+                } else {
+                    set(ds, "hidden", !ds.hidden);
+                }
             });
 
+            this.set('num_results', chart_data.datasets.filter(ds => !ds.hidden).reduce((a, b) => a + b.data.length, 0));
             this.set('chart_data', chart_data);
             this.notifyPropertyChange('chart_data');
         }

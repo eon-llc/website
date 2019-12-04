@@ -13,14 +13,14 @@ export default Controller.extend({
             if(account_name && account_name.length === 12) {
 
                 let permissions = {};
-                this.set('account', account_name);
+                this.set('account', account_name.toLowerCase());
                 this.set('error', false);
 
                 axios({
                     method: 'post',
                     url: 'https://rem.eon.llc/v1/chain/get_account',
                     data: {
-                        "account_name" : account_name
+                        "account_name" : account_name.toLowerCase()
                     }
                 })
                 .then((account) => {
@@ -28,7 +28,7 @@ export default Controller.extend({
 
                         axios({
                             method: 'get',
-                            url: `https://rem.eon.llc/v2/history/get_actions?account=${account_name}&filter=rem:linkauth`
+                            url: `https://rem.eon.llc/v2/history/get_actions?account=${account_name.toLowerCase()}&filter=rem:linkauth`
                         })
                         .then((linkauth) => {
 
