@@ -1,10 +1,11 @@
+{{! template-lint-disable no-inline-styles }}
 <div id="rem-benchmarks" class="content">
 
     <div class="section chart">
         <div class="container">
             <form class="form-inline toolbar">
-                <label for="epoch" class="mr-2 d-none d-md-block">Time Frame:</label>
-                <select id="epoch" onchange={{action "updateEpoch" value="target.value"}} class="form-control mr-4">
+                <label for="epoch" class="d-none d-md-block">Time Frame:</label>
+                <select id="epoch" onchange={{action "updateEpoch" value="target.value"}} class="form-control">
                     {{#if epochs}}
                         {{#each epochs as |e|}}
                             <option value={{e}} selected={{eq epoch e}}>{{e}}</option>
@@ -13,15 +14,36 @@
                         <option value="" selected="selected">Loading&hellip;</option>
                     {{/if}}
                 </select>
-                <button class="btn btn-primary toggle mr-4" type="submit" {{action "toggle"}}>Toggle all</button>
-                <span class="interval">
+                <button class="btn btn-outline-secondary toggle" type="submit" {{action "toggle"}}>Toggle all</button>
+                <span class="interval ml-auto d-none d-md-block">
                     interval: <span class="badge badge-pill badge-primary">{{interval}}</span>
                 </span>
-                <span class="count ml-auto d-none d-md-block">
-                    <span class="badge badge-pill badge-primary">{{num_results}}</span> results
+                <span class="count d-none d-md-block">
+                    results: <span class="badge badge-pill badge-primary">{{num_results}}</span>
                 </span>
             </form>
-            {{ember-chart type="line" data=chart_data options=chart_options}}
+
+            <div class="row">
+
+                {{ember-chart type="line" data=chart_data options=chart_options class="col-12 order-sm-last"}}
+
+                <div id="legend" class="col-12 order-sm-first">
+                    <ul>
+                        {{#each chart_data.datasets as |ds|}}
+                            <li>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id={{ds.label}} checked={{not ds.hidden}}>
+                                    <label class="custom-control-label" for={{ds.label}} {{action "toggle" ds.label}}>
+                                        {{ds.label}}
+                                        <span class="marker" style={{ds.marker}}></span>
+                                    </label>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </div>
 

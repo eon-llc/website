@@ -598,9 +598,27 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       svg
         margin: 0 1rem 0 0
         fill: #5b63bf
+    select, .btn, .badge
+      margin: 0 1rem 0 0
+    label
+      margin: 0 0.5rem 0 0
     label, .count, .interval
       font-weight: bold
       color: #797979
+  #legend
+    ul
+      padding: 0
+      list-style: none
+      display: flex
+      flex-wrap: wrap
+      justify-content: flex-start
+      li
+        flex: 0 0 20%
+        .marker
+          width: 0.5rem
+          height: 0.5rem
+          display: inline-flex
+          border-radius: 0.25rem
   #result
     min-height: 18rem
     .placeholder
@@ -794,6 +812,22 @@ footer
       padding: 0 15px
       .btn
         width: 100%
+
+  #rem-benchmarks
+    form.toolbar
+      select
+        margin: 0 1rem 0 0
+      .btn.toggle
+        margin: 0
+      select, .btn.toggle
+        flex: 1
+    #legend
+      padding-top: 1rem
+      ul
+        justify-content: space-between
+        li
+          flex: none
+          width: 40%
 
   #rem-permissions
     form.toolbar
