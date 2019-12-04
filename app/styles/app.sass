@@ -619,12 +619,32 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
           height: 0.5rem
           display: inline-flex
           border-radius: 0.25rem
+  #warnings
+    margin: 0 0 1rem 0
+    li
+      padding: 0.5rem
+      background: #ffdc5f
+      border: 2px solid #f1cd4f
+      border-radius: 0.5rem
+      color: #635a3c
+      overflow: hidden
+      p
+        margin: 0
+        a
+          color: #635a3b
+          svg
+            fill: #635a3b
+        a:hover
+          color: #9c8e5c
+          svg
+            fill: #9c8e5c
   #result
     min-height: 18rem
     .placeholder
       padding: 0.25rem 0.5rem
       border-radius: 0.25rem
       background: rgba(44, 41, 41, 0.05)
+      align-self: center
       svg
         fill: rgba(69, 69, 69, 0.7)
     .error
@@ -632,6 +652,7 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       border-radius: 0.25rem
       background: rgba(214, 60, 35, 1)
       color: #fff
+      align-self: center
       svg
         fill: #fff
 
@@ -831,8 +852,19 @@ footer
 
   #rem-permissions
     form.toolbar
+      .btn
+        margin: 0
       .pub
         margin: 1rem 0 0 0
+        padding: 0.5rem
+    .branch
+      max-width: 100%
+      li
+        overflow: hidden
+        > .d-flex
+          flex-direction: column
+          .keys
+            margin-top: 1rem
 
   footer
     .copyright

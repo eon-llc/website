@@ -9,7 +9,7 @@ export default Route.extend({
 			return await axios({
 					method: 'get',
 					url: 'https://api.eon.llc/v1/blog',
-					timeout: 1500
+					timeout: 3000
 				})
 				.then((response) => {
 					return JSON.parse(response.data.body);
@@ -21,7 +21,7 @@ export default Route.extend({
 			return await axios({
 					method: 'get',
 					url: 'https://api.eon.llc/v1/github',
-					timeout: 1500
+					timeout: 3000
 				})
 			.then((response) => {
 				return JSON.parse(response.data.body);

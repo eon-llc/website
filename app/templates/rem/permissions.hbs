@@ -16,7 +16,17 @@
                 </a>
             </form>
 
-            <div id="result" class="d-flex justify-content-center align-items-center">
+            <div id="warnings">
+                {{#if warnings}}
+                    <ul>
+                        {{#each warnings as |warning|}}
+                            <li>{{{warning}}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+            </div>
+
+            <div id="result" class="d-flex justify-content-center">
                 {{#if permissions}}
                     {{permissions-tree permissions=permissions account=account}}
                 {{else}}

@@ -12,6 +12,7 @@ export default Controller.extend({
         parse(account_name) {
             if(account_name && account_name.length === 12) {
 
+                let warnings = [];
                 let permissions = {};
                 this.set('account', account_name.toLowerCase());
                 this.set('error', false);
@@ -84,6 +85,15 @@ export default Controller.extend({
                                 }
                             }
 
+                            let keys = JSON.stringify(permissions).match(/EOS[a-zA-Z0-9]*/g);
+
+                            let has_multisig = JSON.stringify(permissions).match(/"threshold":[2-9]/g) || false;
+                            let has_transfer_perm = JSON.stringify(permissions).includes('"code":"rem.token","type":"transfer"');
+
+                            warnings = warnings.concat(this.findDuplicateKeys(keys));
+                            warnings = warnings.concat(this.formatTransferWarning(has_multisig, has_transfer_perm));
+
+                            this.set('warnings', warnings);
                             this.set('permissions', permissions);
                         })
                         .catch(() => { this.set('error', "Failed to fetch all data, try again."); });
@@ -111,5 +121,34 @@ export default Controller.extend({
         }
 
         return obj;
+    },
+    findDuplicateKeys(keys) {
+        let uniques = [];
+        let seen = [];
+        let warnings = [];
+
+        keys.forEach(key => {
+            if(!uniques.includes(key)) {
+                uniques.push(key);
+            } else {
+                if(!seen.includes(key)) {
+                    warnings.push(`<p>${key} <strong>key is used for more than one permission</strong>. <a href="https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#8a1e" target="_blank" rel="noopener noreferrer">How to fix <svg class="icon" viewBox="0 0 24 24">
+    <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg></a></p>`)
+                    seen.push(key);
+                }
+            }
+        });
+
+        return warnings;
+    },
+    formatTransferWarning(has_multisig, has_transfer_perm) {
+        let warnings = [];
+
+        if(!has_multisig && !has_transfer_perm) {
+            warnings.push(`<p><strong>Protect token transfers</strong> with multisig or a separate permission. <a href="https://medium.com/eon-llc/understanding-rem-chain-account-permissions-df61e9b7a275#2bdb" target="_blank" rel="noopener noreferrer">How to fix <svg class="icon" viewBox="0 0 24 24">
+<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg></a></p>`)
+        }
+
+        return warnings;
     }
 });
