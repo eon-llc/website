@@ -5,7 +5,7 @@
 
             <form class="form-inline toolbar d-flex align-items-stretch" {{action "parse" account on="submit"}}>
                 <div class="input-group">
-                    {{input required=true type="text" name="" class="form-control" min="12" max="12" minlength="12" maxlength="12" placeholder="Account Name" value=account autofocus=true}}
+                    {{input required=true type="text" name="" class="form-control" min="12" max="12" minlength="12" maxlength="12" placeholder="Account Name" value=account autofocus=true autocapitalize="none"}}
                     <div class="input-group-append">
                         <input class="btn btn-outline-secondary toggle" type="submit" value="Go">
                     </div>
