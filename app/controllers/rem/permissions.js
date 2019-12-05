@@ -4,6 +4,9 @@ import { htmlSafe } from '@ember/template';
 import ENV from 'website/config/environment';
 
 export default Controller.extend({
+    queryParams: ['account'],
+    account: null,
+
     init() {
         this._super();
         this.set('voteURL', ENV.APP.voteURL);
