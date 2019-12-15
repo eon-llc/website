@@ -18,8 +18,7 @@ export default Controller.extend({
 
             axios({
                 method: 'get',
-                url: 'https://api.eon.llc/v1/blog',
-                timeout: 3000
+                url: 'https://api.eon.llc/v1/blog'
             })
             .then((response) => {
                 this.set('blog_stats', JSON.parse(response.data.body));
@@ -28,8 +27,7 @@ export default Controller.extend({
 
             axios({
                     method: 'get',
-                    url: 'https://api.eon.llc/v1/github',
-                    timeout: 3000
+                    url: 'https://api.eon.llc/v1/github'
             })
             .then((response) => {
                 this.set('github_stats', JSON.parse(response.data.body));
@@ -38,8 +36,7 @@ export default Controller.extend({
 
             axios({
                 method: 'get',
-                url: 'https://rem.eon.llc/v2/health',
-                timeout: 1500
+                url: 'https://rem.eon.llc/v2/health'
             })
             .then((response) => {
                 let required = 4;
