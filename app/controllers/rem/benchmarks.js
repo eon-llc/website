@@ -130,6 +130,7 @@ export default Controller.extend({
                 this.set('interval', data.interval);
                 const benchmarks = data.benchmarks || [];
                 let line_chart_data = this.get('line_chart_data') || {labels: [], datasets: [], fill: false};
+                let box_chart_data = this.get('box_chart_data') || {labels: [], datasets: [], fill: false};
                 let timeline = [];
                 let producers = [];
 
@@ -193,12 +194,11 @@ export default Controller.extend({
                 }
 
                 line_chart_data.labels = timeline;
+                box_chart_data.labels = [ [...line_chart_data.labels] ];
 
-                let box_chart_data = JSON.parse(JSON.stringify(line_chart_data));
-
-                for(let i=0; i<box_chart_data.datasets.length; i++) {
-                    box_chart_data.datasets[i].data = [ [...box_chart_data.datasets[i].data] ];
-                    box_chart_data.labels = [ [...box_chart_data.labels] ];
+                for(let i=0; i<line_chart_data.datasets.length; i++) {
+                    box_chart_data.datasets[i] = {...line_chart_data.datasets[i]};
+                    box_chart_data.datasets[i].data = [ [...line_chart_data.datasets[i].data] ];
                 }
 
                 this.set('box_chart_data', box_chart_data);
