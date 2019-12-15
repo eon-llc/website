@@ -25,11 +25,18 @@
 
             <div class="row">
 
-                {{ember-chart type="line" data=chart_data options=chart_options class="col-12 order-sm-last"}}
+                <div id="legend" class="col-12 order-sm-last np">
+
+                    {{ember-chart type="line" data=line_chart_data options=line_chart_options}}
+
+                    {{ember-chart type="boxplot" data=box_chart_data options=box_chart_options class="mt-4"}}
+
+                </div>
 
                 <div id="legend" class="col-12 order-sm-first">
+
                     <ul>
-                        {{#each chart_data.datasets as |ds|}}
+                        {{#each line_chart_data.datasets as |ds|}}
                             <li>
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id={{ds.label}} checked={{not ds.hidden}}>
@@ -40,6 +47,7 @@
                                 </div>
                             </li>
                         {{/each}}
+
                     </ul>
                 </div>
 

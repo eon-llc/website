@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "broccoli-clean-css": "^2.0.1",
+    "chartjs-chart-box-and-violin-plot": "^2.2.0",
     "clean-css-promise": "^3.0.0"
   }
 }
