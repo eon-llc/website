@@ -183,7 +183,7 @@ export default Controller.extend({
                         line_chart_data.datasets.push({
                             label: producers[i],
                             hidden: false,
-                            marker: htmlSafe("background-color: " + color),
+                            marker: htmlSafe('background-color: rgba('+color+', 1)'),
                             backgroundColor: 'rgba('+color+', 0.7)',
                             borderColor: 'rgba('+color+', 1)',
                             data: producer_timeline,
