@@ -702,11 +702,15 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
         margin: 1rem 0 0 2rem
   strong
     min-width: 100px
-  .keys
-    margin: 0 0 0 2rem
-    li
-      flex-direction: row
-      white-space: nowrap
+  .wrap
+    flex: 1
+    .keys
+      &:not(:last-child)
+        margin-bottom: 1rem
+      margin: 0 0 0 2rem
+      li
+        flex-direction: row
+        white-space: nowrap
   .actions.tag
     margin: 0
     li
