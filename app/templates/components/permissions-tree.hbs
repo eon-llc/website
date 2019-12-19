@@ -20,53 +20,79 @@
                     </span>
                 </strong>
 
-                {{#if (not (is-empty perm_props.details.required_auth.accounts))}}
-                    <ul class="keys">
-                        {{#each perm_props.details.required_auth.accounts as |account|}}
-                            <li>
-                                <span class="weight tag">
-                                    +{{account.weight}}
-                                    <BsPopover @title="Key Weight" @triggerEvents="hover" @placement="top">
-                                        {{#if (gte account.weight perm_props.details.required_auth.threshold)}}
-                                            This account has enough weight to perform actions assigned to <strong>{{perm_name}}</strong>.
-                                        {{else}}
-                                            This account needs to be combined with additional keys or accounts to fulfill multisig threshold of <strong>{{perm_props.details.required_auth.threshold}}</strong> assigned to <strong>{{perm_name}}</strong>.
-                                        {{/if}}
-                                    </BsPopover>
-                                </span>
+                <div class="wrap">
+                    {{#if (not (is-empty perm_props.details.required_auth.accounts))}}
+                        <ul class="keys">
+                            {{#each perm_props.details.required_auth.accounts as |account|}}
+                                <li>
+                                    <span class="weight tag">
+                                        +{{account.weight}}
+                                        <BsPopover @title="Key Weight" @triggerEvents="hover" @placement="top">
+                                            {{#if (gte account.weight perm_props.details.required_auth.threshold)}}
+                                                This account has enough weight to perform actions assigned to <strong>{{perm_name}}</strong>.
+                                            {{else}}
+                                                This account needs to be combined with additional keys or accounts to fulfill multisig threshold of <strong>{{perm_props.details.required_auth.threshold}}</strong> assigned to <strong>{{perm_name}}</strong>.
+                                            {{/if}}
+                                        </BsPopover>
+                                    </span>
 
-                                <span class="account tag">
-                                    {{account.permission.actor}}@{{account.permission.permission}}
-                                    <BsPopover @title="Public Key" @triggerEvents="hover" @placement="top">This is one of the accounts assigned to <strong>{{perm_name}}</strong> permission.</BsPopover>
-                                </span>
-                            </li>
-                        {{/each}}
-                    </ul>
-                {{/if}}
+                                    <span class="account tag">
+                                        {{account.permission.actor}}@{{account.permission.permission}}
+                                        <BsPopover @title="Public Key" @triggerEvents="hover" @placement="top">This is one of the accounts assigned to <strong>{{perm_name}}</strong> permission.</BsPopover>
+                                    </span>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
 
-                {{#if (not (is-empty perm_props.details.required_auth.keys))}}
-                    <ul class="keys">
-                        {{#each perm_props.details.required_auth.keys as |key|}}
-                            <li>
-                                <span class="weight tag">
-                                    +{{key.weight}}
-                                    <BsPopover @title="Key Weight" @triggerEvents="hover" @placement="top">
-                                        {{#if (gte key.weight perm_props.details.required_auth.threshold)}}
-                                            This key has enough weight to perform actions assigned to <strong>{{perm_name}}</strong>.
-                                        {{else}}
-                                            This key needs to be combined with additional keys or accounts to fulfill multisig threshold of <strong>{{perm_props.details.required_auth.threshold}}</strong> assigned to <strong>{{perm_name}}</strong>.
-                                        {{/if}}
-                                    </BsPopover>
-                                </span>
+                    {{#if (not (is-empty perm_props.details.required_auth.keys))}}
+                        <ul class="keys">
+                            {{#each perm_props.details.required_auth.keys as |key|}}
+                                <li>
+                                    <span class="weight tag">
+                                        +{{key.weight}}
+                                        <BsPopover @title="Key Weight" @triggerEvents="hover" @placement="top">
+                                            {{#if (gte key.weight perm_props.details.required_auth.threshold)}}
+                                                This key has enough weight to perform actions assigned to <strong>{{perm_name}}</strong>.
+                                            {{else}}
+                                                This key needs to be combined with additional keys or accounts to fulfill multisig threshold of <strong>{{perm_props.details.required_auth.threshold}}</strong> assigned to <strong>{{perm_name}}</strong>.
+                                            {{/if}}
+                                        </BsPopover>
+                                    </span>
 
-                                <span class="key tag">
-                                    {{key.key}}
-                                    <BsPopover @title="Public Key" @triggerEvents="hover" @placement="top">This is a public key assigned to <strong>{{perm_name}}</strong> permission.</BsPopover>
-                                </span>
-                            </li>
-                        {{/each}}
-                    </ul>
-                {{/if}}
+                                    <span class="key tag">
+                                        {{key.key}}
+                                        <BsPopover @title="Public Key" @triggerEvents="hover" @placement="top">This is a public key assigned to <strong>{{perm_name}}</strong> permission.</BsPopover>
+                                    </span>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+
+                    {{#if (not (is-empty perm_props.details.required_auth.waits))}}
+                        <ul class="keys">
+                            {{#each perm_props.details.required_auth.waits as |wait|}}
+                                <li>
+                                    <span class="weight tag">
+                                        +{{wait.weight}}
+                                        <BsPopover @title="Wait Weight" @triggerEvents="hover" @placement="top">
+                                            {{#if (gte key.weight perm_props.details.required_auth.threshold)}}
+                                                This wait duration has enough weight to perform actions assigned to <strong>{{perm_name}}</strong>.
+                                            {{else}}
+                                                This wait duration needs to be combined with additional keys or accounts to fulfill multisig threshold of <strong>{{perm_props.details.required_auth.threshold}}</strong> assigned to <strong>{{perm_name}}</strong>.
+                                            {{/if}}
+                                        </BsPopover>
+                                    </span>
+
+                                    <span class="key tag">
+                                        {{wait.wait_sec}} seconds
+                                        <BsPopover @title="Wait" @triggerEvents="hover" @placement="top">This is a wait duration assigned to <strong>{{perm_name}}</strong> permission.</BsPopover>
+                                    </span>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </div>
 
                 {{#if perm_props.actions}}
                     <span class="actions tag">

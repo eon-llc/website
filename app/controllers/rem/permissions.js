@@ -33,7 +33,7 @@ export default Controller.extend({
 
                         axios({
                             method: 'get',
-                            url: `https://rem.eon.llc/v2/history/get_actions?account=${account_name.toLowerCase()}&filter=rem:linkauth`
+                            url: `https://rem.eon.llc/v2/history/get_actions?account=${account_name.toLowerCase()}&filter=rem:linkauth,rem:unlinkauth&limit=15000`
                         })
                         .then((linkauth) => {
 
@@ -54,8 +54,11 @@ export default Controller.extend({
                                 }
                             }
 
+
+
                             linkauth.data.actions = linkauth.data.actions.filter(function (item) {
-                                return latest_linkauth[`${item.act.data.code}::${item.act.data.type}`] === item.block_num;
+                                return latest_linkauth[`${item.act.data.code}::${item.act.data.type}`] === item.block_num
+                                        && (item.act.name === 'linkauth');
                             })
 
                             for(let a = 0; a < linkauth.data.actions.length; a++) {
