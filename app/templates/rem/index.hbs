@@ -1,0 +1,65 @@
+<div id="rem" class="content">
+
+    <div class="tg-bot">
+        <a href="https://telegram.me/remalertbot" class="d-flex justify-content-center align-items-center" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24"><path d="M9.78,18.65L10.06,14.42L17.74,7.5C18.08,7.19 17.67,7.04 17.22,7.31L7.74,13.3L3.64,12C2.76,11.75 2.75,11.14 3.84,10.7L19.81,4.54C20.54,4.21 21.24,4.72 20.96,5.84L18.24,18.65C18.05,19.56 17.5,19.78 16.74,19.36L12.6,16.3L10.61,18.23C10.38,18.46 10.19,18.65 9.78,18.65Z" /></svg>
+
+            <div class="d-flex flex-column">
+                <h4>Telegram REM Alert Bot</h4>
+                <p>A bot that can send you various REM alerts.</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="utils">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 item benchmark">
+                    {{#link-to "rem.benchmarks" class="d-block"}}
+                        <strong>REM Producer Benchmark</strong>
+                        <p>Benchmark that measures CPU performance of all producers on REM chain.</p>
+                        <span>View Benchmark <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                    {{/link-to}}
+                </div>
+                <div class="col-12 col-md-4 item map">
+                    {{#link-to "rem.map" class="d-block"}}
+                        <strong>REM Producer Map</strong>
+                        <p>A global map of REM producer locations and distribution.</p>
+                        <span>View Map <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                    {{/link-to}}
+                </div>
+                <div class="col-12 col-md-4 item permissions">
+                    {{#link-to "rem.permissions" class="d-block"}}
+                        <strong>REM Account Permissions</strong>
+                        <p>See a detailed breakdown of your REM account permissions.</p>
+                        <span>View Permissions <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                    {{/link-to}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="api">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-row align-items-center">
+                        <h5 class="d-block">REM chain API</h5>
+                        <a href="https://rem.eon.llc/v2/health" target="_blank" rel="noopener noreferrer">
+                            <span class="status">
+                                <span class="circle {{api_status }}"></span>
+                                <BsTooltip @title={{api_status }} />
+                            </span>
+                        </a>
+                    </div>
+                    <p>As one of our primary contributions to the REM ecosystem we host an API endpoint. This API powers our telegram bot and all of the tools you see above. Everyone in the community to use our API for their projects. Use <code>https://rem.eon.llc</code> or <a href="https://rem.eon.llc/v2/docs/index.html" target="_blank" rel="noopener noreferrer">read the docs</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    {{vote-for-us}}
+
+</div>

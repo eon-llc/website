@@ -30,6 +30,9 @@ code
   background: #f1f1f1
   padding: .2rem .4rem
 
+.hidden
+  display: none
+
 .input-group-append
   margin-left: -2px
 
@@ -218,9 +221,9 @@ header
     padding-right: 1rem
 
   .navbar-nav .blog
-    border-right: 2px solid rgba(124, 103, 49, 0.1)
-    padding-right: 0.5rem
-    margin-right: 1rem
+    border-left: 2px solid rgba(124, 103, 49, 0.1)
+    padding-left: 0.5rem
+    margin-left: 1rem
 
   .navbar-nav .nav-link:not(.social)::after
     content: ""
@@ -398,7 +401,35 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
     &.transparency
       padding-left: 3rem
 
+#publications
+  background: #fff
+  border-top: 1px solid #eee
+  border-bottom: 1px solid #eee
+  a
+    flex-direction: row
+    padding: 4rem 0
+    svg
+      width: 5rem
+      height: 5rem
+      border-radius: 2.5rem
+      padding: 1rem
+      margin: 0 2rem 0 0
+      fill: #2b2928
+      background: #feb900
+      transition: margin 0.5s
+    p
+      margin: 0
+    h4, p
+      color: #454545
+    p
+      font-weight: 400
+  &:hover
+    svg
+      margin: 0 2.5rem 0 0
+      transition: margin 0.5s
+
 #projects
+  background: #fff
   padding: 5rem 0
   .overview
     padding: 0 5rem
@@ -534,6 +565,50 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       width: 3rem
       height: auto
       margin: 0 0 1rem 0
+// REM page
+#rem
+  .tg-bot
+    border-top: 1px solid #eee
+    border-bottom: 1px solid #eee
+    a
+      flex-direction: row
+      padding: 4rem 0
+      svg
+        width: 5rem
+        height: 5rem
+        border-radius: 2.5rem
+        padding: 1rem
+        margin: 0 2rem 0 0
+        fill: #2b2928
+        background: #feb900
+        transition: margin 0.5s
+      p
+        margin: 0
+      h4, p
+        color: #454545
+      p
+        font-weight: 400
+    &:hover
+      svg
+        margin: 0 2.5rem 0 0
+        transition: margin 0.5s
+  .utils
+    border-bottom: 1px solid #eee
+    .item
+      padding: 0 3rem
+      &.benchmark
+        padding-left: 0
+      &.permissions
+        padding-right: 0
+      &.map
+        border-right: 1px solid #eee
+        border-left: 1px solid #eee
+      a
+        padding: 5rem 0
+        p
+          color: #454545
+  .api
+    padding: 5rem 0
 
 // technology page
 #technology
@@ -578,7 +653,7 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
         margin: 0 auto
         display: block
 
-#rem-benchmarks, #rem-permissions
+#rem-benchmarks, #rem-permissions, #rem-map
   .section
     padding: 2rem 0 5rem 0
   form.toolbar
@@ -717,6 +792,109 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       margin: 0
       padding: 0
 
+#rem-map
+  #map
+    position: relative
+    #map-svg
+      width: 100%
+      height: auto
+    svg
+      path
+        fill: rgb(241, 241, 241)
+        stroke: rgba(120, 120, 120, 0.25)
+        stroke-width: 1.5
+        outline: none
+    #producing-placeholder
+      position: absolute
+      left: 50%
+      top: 50%
+      background: #fff
+      padding: 0.25rem 0.5rem
+      border-radius: 0.5rem
+      border: 2px solid #a8a9bd
+      transform: translate(-50%, -50%) translateY(0rem)
+      color: #888998
+      opacity: 1
+      box-shadow: 0 0.55rem 1rem 0 rgba(0, 0, 0, 0.15)
+      transition: all 0.5s
+      &.hidden
+        display: block
+        opacity: 0
+        transform: translate(-50%, -50%) translateY(-1rem)
+        transition: all 0.5s
+    #markers
+      position: absolute
+      top: 0
+      right: 0
+      left: 0
+      bottom: 0
+      .marker
+        position: absolute
+        top: 0
+        left: 0
+        display: block
+        width: 0.5rem
+        height: 0.5rem
+        border-radius: 0.25rem
+        stroke-width: 0px
+        background: #a8a9bd
+        transform: translate(-50%, -50%)
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 1)
+        .popover
+          pointer-events: none
+          z-index: 5
+          opacity: 0
+          transition: all 0.5s
+          transform: translate(calc(-50% + 0.25rem), calc(-100%))
+          h5
+            margin: 0
+            font-size: 1rem
+          span
+            white-space: nowrap
+          .arrow
+            transform: translateX(-50%)
+            margin: 0 0 0 50%
+            &::after
+              bottom: 2px
+        &[data-type="producer"]
+          z-index: 3
+        &[data-type="seed"]
+          z-index: 2
+        &[data-type="full"]
+          background: #ffba00
+          z-index: 1
+        &.active
+          background: #6772e5
+          &.producing
+            z-index: 4
+            background: #6bc507
+            &::after
+              top: -0.25rem
+              left: -0.25rem
+              display: block
+              content: ""
+              position: absolute
+              transform: translate(-100%, -100%)
+              width: 1rem
+              height: 1rem
+              border-radius: 1rem
+              animation: PULSE 0.5s infinite
+              background: #6bc507
+              z-index: -1
+        &.producing, &:hover
+          .popover
+            z-index: 6
+            opacity: 1
+            transition: all 0.5s
+            transform: translate(calc(-50% + 0.25rem), calc(-100% - 0.75rem))
+
+@keyframes PULSE
+  0%
+    opacity: 1
+    transform: scale(0)
+  100%
+    opacity: 0
+    transform: scale(3)
 /* -----------------------------
   FOOTER
   ----------------------------- */
@@ -763,6 +941,11 @@ footer
         display: none
 
 @include media-breakpoint-down(sm)
+  .vote-for-us
+    .col-12
+      padding-left: 2rem
+      padding-right: 2rem
+
   header
     #decor
       #triangle
@@ -834,11 +1017,59 @@ footer
         h4
           text-align: left
 
+  #publications
+    a
+      text-align: center
+      flex-direction: column
+      padding: 2rem
+      svg
+        width: 4rem
+        height: 4rem
+        border-radius: 2rem
+        margin: 0 0 1rem 0
+    &:hover
+      svg
+        margin: 0 0 1rem 0
+
   #projects
+    padding: 2rem
     .overview
-      padding: 0 15px
+      padding: 0 1rem
       .btn
         width: 100%
+
+  #rem
+    .tg-bot
+      a
+        text-align: center
+        flex-direction: column
+        padding: 2rem
+        svg
+          width: 4rem
+          height: 4rem
+          border-radius: 2rem
+          margin: 0 0 1rem 0
+      &:hover
+        svg
+          margin: 0 0 1rem 0
+    .utils
+      padding: 3rem 0
+      border-bottom: 1px solid #eee
+      .item
+        padding: 0 2rem
+        &.benchmark
+          padding-left: 2rem
+        &.map
+          border-top: 1px solid #eee
+          border-bottom: 1px solid #eee
+        a
+          padding: 2rem 0
+    .api
+      padding: 5rem 0
+      p
+        margin: 0
+      .col-12
+        padding: 0 2rem
 
   #rem-benchmarks
     form.toolbar

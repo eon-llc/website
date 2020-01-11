@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import axios from 'axios';
 import { htmlSafe } from '@ember/template';
-import ENV from 'website/config/environment';
 
 export default Controller.extend({
     queryParams: ['account'],
@@ -9,7 +8,6 @@ export default Controller.extend({
 
     init() {
         this._super();
-        this.set('voteURL', ENV.APP.voteURL);
         this.set('error', false);
     },
     actions: {
