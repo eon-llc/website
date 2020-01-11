@@ -159,7 +159,7 @@ export default Controller.extend({
 
         axios({
             method: 'get',
-            url: 'http://rem.eon.llc/v1/chain/get_info',
+            url: 'https://rem.eon.llc/v1/chain/get_info',
         })
         .then((response) => {
             current = response.data.head_block_producer;
