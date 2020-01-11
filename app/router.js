@@ -18,6 +18,7 @@ Router.map(function() {
   this.route('rem', function() {
     this.route('permissions');
     this.route('benchmarks');
+    this.route('map');
   });
 });
 
