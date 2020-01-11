@@ -36,7 +36,7 @@ export default Controller.extend({
 
             axios({
                 method: 'post',
-                url: 'http://rem.eon.llc/v1/chain/get_table_rows',
+                url: 'https://rem.eon.llc/v1/chain/get_table_rows',
                 data: {
                     "table":"producers",
                     "scope":"rem",
