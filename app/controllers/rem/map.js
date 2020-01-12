@@ -82,8 +82,8 @@ export default Controller.extend({
 
                         let active = producers[index].top21_chosen_time != null_date;
                         let miller = this.millerProjection(node.location.latitude, node.location.longitude, chart_width);
-                        let y = miller[1] - 45; // ((-1 * node.location.latitude) + 90) * (chart_height / 180);
-                        let x = miller[0] - 38; // (node.location.longitude + 180) * (chart_width / 360);
+                        let y = miller[1] - (45 / window.devicePixelRatio);
+                        let x = miller[0] - (38 / window.devicePixelRatio);
                         let marker = {y, x, active, name: val.producer_account_name, type: node.node_type}
                         markers.push(marker);
 
@@ -160,7 +160,7 @@ export default Controller.extend({
                 }
 
                 types.forEach((type) => {
-                    if(marker.getAttribute('data-type') == type.name) {
+                    if(marker.getAttribute('data-type') === type.name) {
                         if (type.show) {
                             marker.classList.remove("hidden");
                         } else {
@@ -196,7 +196,7 @@ export default Controller.extend({
         y *= scale;
 
         x += width/2;
-        y += width/2*0.7331989845
+        y += width/2*0.7331989845;
 
         return [x,y];
 
