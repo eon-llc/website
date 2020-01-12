@@ -50,32 +50,17 @@ export default Controller.extend({
                 let map = document.getElementById("map-svg");
                 let chart_height = map.clientHeight;
                 let chart_width = map.clientWidth;
-                let bp_jsons = this.get('bp_jsons');
-                let most_recent = 6;
-                let promises = [];
 
                 this.set('producers', producers);
 
-                producers.forEach(prod => {
-                    let now = new Date().valueOf();
-                    let last_block = new Date(prod.last_block_time + "Z").valueOf();
-
-                    if((now - last_block) / 1000 < most_recent) {
-                        this.set('current', prod.owner)
-                    }
-
-                    if(bp_jsons.length == 0) {
-                        promises.push(axios.get(prod.url.replace(/\/$/, "") + "/bp.json").catch(() => { this.set('error', "Failed to fetch bp.json."); }));
-                    }
-                });
-
-                if(bp_jsons.length == 0) {
-                    await axios.all(promises)
-                    .then((values) => {
-                        this.set('bp_jsons', values);
-                    })
-                    .catch(() => { this.set('error', "Failed to fetch bp.json."); });
-                }
+                await axios({
+                    method: 'get',
+                    url: 'https://api.eon.llc/v1/bp_jsons'
+                })
+                .then((response) => {
+                    this.set('bp_jsons', JSON.parse(response.data.body));
+                })
+                .catch(() => { return false; });
 
                 this.draw(chart_height, chart_width);
 
@@ -91,16 +76,15 @@ export default Controller.extend({
         const bp_jsons = this.get('bp_jsons');
 
         bp_jsons.forEach( (val, index) => {
-            if(val && typeof val.data === 'object' && val.data !== null) {
-                const p = val.data;
-                p.nodes.forEach( node => {
+            if(val && typeof val === 'object') {
+                val.nodes.forEach( node => {
                     if(node.location.latitude && node.location.longitude) {
 
                         let active = producers[index].top21_chosen_time != null_date;
                         let miller = this.millerProjection(node.location.latitude, node.location.longitude, chart_width);
                         let y = miller[1] - 45; // ((-1 * node.location.latitude) + 90) * (chart_height / 180);
                         let x = miller[0] - 38; // (node.location.longitude + 180) * (chart_width / 360);
-                        let marker = {y, x, active, name: p.producer_account_name, type: node.node_type}
+                        let marker = {y, x, active, name: val.producer_account_name, type: node.node_type}
                         markers.push(marker);
 
                         if(!types.includes(node.node_type)) { types.push(node.node_type); }
