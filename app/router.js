@@ -19,6 +19,10 @@ Router.map(function() {
     this.route('permissions');
     this.route('benchmarks');
     this.route('map');
+    this.route('polls', function() {
+      this.route('new');
+      this.route('view', {path: '/:id'});
+    });
   });
 });
 

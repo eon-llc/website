@@ -1,0 +1,39 @@
+<div id="poll-new" class="content">
+    <div class="container">
+        {{bread-crumbs tagName="ul" outputStyle="bootstrap" linkable=true}}
+
+        <form>
+            <div class="row">
+                <div class="col-8">
+                    <input type="text" name="subject" placeholder="Poll Subject">
+
+
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="is_token_poll">Token Poll</label>
+                        <Input @id="is_token_poll" @type="checkbox" @name="is_token_poll" @checked={{this.is_token_poll}} />
+                    </div>
+                    <div class="form-group">
+                        <label for="producers_only">Producers Only</label>
+                        <Input @id="producers_only" @type="checkbox" @name="producers_only" @checked={{this.producers_only}} />
+                    </div>
+                    <div class="form-group">
+                        <label for="guardians_only">Guardians Only</label>
+                        <Input @id="guardians_only" @type="checkbox" @name="guardians_only" @checked={{this.guardians_only}} />
+                    </div>
+                    <div class="form-group">
+                        <label>Poll Expiration</label>
+                        <Input @id="enable_expiration" @type="checkbox" @name="enable_expiration" @checked={{this.enable_expiration}} />
+                        <div>
+                            {{ember-flatpickr
+                                disable=(not enable_expiration)
+                                onChange=(action (mut expires_at))
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

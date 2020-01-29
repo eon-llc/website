@@ -1,0 +1,27 @@
+<div id="polls" class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4>Rem Polls</h4>
+                {{#link-to "rem.polls.new"}}
+                    Create New Poll
+                {{/link-to}}
+
+                {{#if this.account}}
+                    <h5>{{this.account.name}}</h5>
+                    <strong>@{{this.account.authority}}</strong>
+                {{else}}
+                    <button {{action "scatterLogin"}}>Log in with Scatter</button>
+                {{/if}}
+
+                {{#if this.polls}}
+                    {{#each this.polls as |poll|}}
+                        <strong>{{poll.subject}}</strong>
+                    {{/each}}
+                {{else}}
+                    <p>Found 0 polls.</p>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
