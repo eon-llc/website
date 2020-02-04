@@ -11,7 +11,25 @@ module.exports = function(defaults) {
       'bootstrapVersion': 4,
       'importBootstrapFont': false,
       'importBootstrapCSS': false
-    }
+    },
+    autoImport: {
+      webpack: {
+        node: {
+          Buffer: true,
+          global: true,
+          process: true,
+        },
+      },
+    },
+    'ember-mdi': {
+      icons: [
+        'help-circle',
+        'twitter',
+        'github-face',
+        'medium',
+        'youtube',
+      ],
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

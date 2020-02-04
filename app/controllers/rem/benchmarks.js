@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
-import { observer } from '@ember/object';
 import { set } from '@ember/object';
 import "chartjs-chart-box-and-violin-plot";
 
@@ -8,10 +7,6 @@ export default Controller.extend({
     queryParams: ['epoch'],
     epoch: null,
     interval: "N/A",
-
-    chartData: observer('epoch', function() {
-        this.send('getChartData');
-    }),
 
     init: function() {
         this._super();
@@ -121,6 +116,7 @@ export default Controller.extend({
             .then((data) => {
                 if(!this.get('epoch')) { this.set('epoch', data[0]); }
                 this.set('epochs', data);
+                this.send('getChartData');
             });
         },
         getChartData() {

@@ -14,8 +14,8 @@
         "location": {
             "name": "Connecticut",
             "country": "US",
-            "latitude": 41.6032,
-            "longitude": -73.0877
+            "latitude": 39.0481,
+            "longitude": -77.4728
         },
         "social": {
             "twitter": "eon_llc",
@@ -27,8 +27,8 @@
             "location": {
                 "name": "primary",
                 "country": "US",
-                "latitude": 38.0700,
-                "longitude": -79.6710
+                "latitude": 39.0481,
+                "longitude": -77.4728
             },
             "node_type": "producer",
             "p2p_endpoint": "p2p.mainnet.rem.eon.llc:9876"
@@ -37,8 +37,8 @@
             "location": {
                 "name": "primary",
                 "country": "US",
-                "latitude": 38.0700,
-                "longitude": -79.6710
+                "latitude": 39.0481,
+                "longitude": -77.4728
             },
             "node_type": "full",
             "api_endpoint": "http://rem.eon.llc",

@@ -1,14 +1,14 @@
 import Application from '@ember/application';
-import Resolver from './resolver';
+import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import Route from '@ember/routing/route';
 
-const App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver
-});
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+}
 
 Route.reopen({
   activate: function() {
@@ -18,5 +18,3 @@ Route.reopen({
 });
 
 loadInitializers(App, config.modulePrefix);
-
-export default App;
