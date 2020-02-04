@@ -1,20 +1,13 @@
 import Controller from '@ember/controller';
+import ENV from 'website/config/environment';
 import { inject as service } from '@ember/service';
 import ScatterJS from '@scatterjs/core';
 import ScatterEOS from '@scatterjs/eosjs2';
-import {JsonRpc, Api} from 'eosjs';
 import axios from 'axios';
 
 ScatterJS.plugins( new ScatterEOS() );
 
-const network = ScatterJS.Network.fromJson({
-    blockchain:'eos',
-    chainId:'9f485317b61a19e956c822866cc57a64bbed2196e1cf178e80f847a139a20916',
-    host:'nodes.get-scatter.com',
-    port:443,
-    protocol:'https'
-});
-const rpc = new JsonRpc(network.fullhost());
+const network = ScatterJS.Network.fromJson(ENV.APP.RemmeNetwork);
 
 export default Controller.extend({
     notifications: service('toast'),
@@ -24,6 +17,11 @@ export default Controller.extend({
 
     init() {
         this._super();
+
+        const account = JSON.parse(localStorage.getItem('rem-account'));
+        if(account) {
+            this.set('account', account);
+        }
     },
     actions: {
         loadAPIHealth() {
@@ -54,50 +52,40 @@ export default Controller.extend({
             .catch(() => { return "offline"; });
         },
         scatterLogin() {
-            ScatterJS.connect('eon-llc', {network}).then(connected => {
+            ScatterJS.connect(ENV.APP.name, {network}).then(connected => {
                 if(!connected) {
                     this.notifications.error(`We couldn't detect Scatter, make sure it's open.`, 'No Scatter');
+                } else {
+                    ScatterJS.login().then(id => {
+                        if(!id) {
+                            this.notifications.error(`Failed to fetch account from Scatter.`, 'No Account');
+                        } else {
+                            const account = ScatterJS.account('eos');
+                            this.set('account', account);
+                            localStorage.setItem('rem-account', JSON.stringify(account));
+                            this.notifications.info(`You have been logged in.`, 'Welcome');
+                        }
+                    })
+                    .catch(err => {
+                        if(err.type === "identity_rejected") {
+                            this.notifications.error(`You cancelled connection to Scatter.`, 'Connection Cancelled');
+                        }
+                    });
                 }
-
-                ScatterJS.login().then(id => {
-                    if(!id) {
-                        this.notifications.error(`Failed to fetch account from Scatter.`, 'No Account');
-                    }
-
-                    const account = ScatterJS.account('eos');
-                    this.set('account', account);
-
-                    //const eos = ScatterJS.eos(network, Api, {rpc});
-
-                    // eos.transact({
-                    //     actions: [{
-                    //         account: 'eosio.token',
-                    //         name: 'transfer',
-                    //         authorization: [{
-                    //             actor: account.name,
-                    //             permission: account.authority,
-                    //         }],
-                    //         data: {
-                    //             from: account.name,
-                    //             to: 'safetransfer',
-                    //             quantity: '0.0001 EOS',
-                    //             memo: account.name,
-                    //         },
-                    //     }]
-                    // }, {
-                    //     blocksBehind: 3,
-                    //     expireSeconds: 30,
-                    // }).then(res => {
-                    //     console.log('sent: ', res);
-                    // }).catch(err => {
-                    //     console.error('error: ', err);
-                    // });
-                })
-                .catch(err => {
-                    if(err.type === "identity_rejected") {
-                        this.notifications.error(`You cancelled connection to Scatter.`, 'Connection Cancelled');
-                    }
-                });
+            });
+        },
+        scatterLogout() {
+            ScatterJS.connect(ENV.APP.name, {network}).then(connected => {
+                if(!connected) {
+                    this.notifications.error(`We couldn't detect Scatter, make sure it's open.`, 'No Scatter');
+                } else {
+                    ScatterJS.scatter.forgetIdentity();
+                    ScatterJS.logout(ENV.APP.name, {network}).then( () => {
+                        this.set('account', '');
+                        localStorage.setItem('rem-account', JSON.stringify(''));
+                        this.notifications.info(`You have been logged out.`, 'Goodbye');
+                    });
+                }
             });
         }
     }

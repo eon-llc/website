@@ -5,7 +5,7 @@ import { set } from '@ember/object';
 export default Controller.extend({
 
     parent: controller('rem.index'),
-    polls: computed.alias('model')['polls'],
+    polls: computed.alias('model.polls'),
     account: computed.alias('parent.account'),
 
     init() {
@@ -31,6 +31,9 @@ export default Controller.extend({
         },
         scatterLogin(){
             this.get('parent').send('scatterLogin');
-        }
+        },
+        scatterLogout(){
+            this.get('parent').send('scatterLogout');
+        },
     },
 });

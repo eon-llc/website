@@ -22,7 +22,15 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      name: 'eon',
       voteURL: 'https://remme.bloks.io/vote?producers=eonblockprod',
+      RemmeNetwork: {
+        blockchain:'eos',
+        chainId:'9f485317b61a19e956c822866cc57a64bbed2196e1cf178e80f847a139a20916',
+        host:'rem.eon.llc',
+        port:443,
+        protocol:'https'
+      }
     }
   };
 
@@ -52,10 +60,10 @@ module.exports = function(environment) {
 
   ENV['ember-toastr'] = {
     toastrOptions: {
-      closeButton: true,
+      closeButton: false,
       debug: false,
       newestOnTop: true,
-      progressBar: true,
+      progressBar: false,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       onclick: null,

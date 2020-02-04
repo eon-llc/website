@@ -16,15 +16,18 @@ export default Route.extend({
                 "table":"polls",
                 "scope":"pollingremme",
                 "code":"pollingremme",
+                "reverse": true,
                 "limit":1000,
                 "json":true
             },
         })
-        .then(async (response) => {
-            console.log(response.data.rows);
-
-            return true;
+        .then( response => {
+            return response.data.rows;
         })
         .catch(() => { return false; });
+    },
+    activate: function() {
+        this._super();
+        window.scrollTo(0, 0);
     }
 });

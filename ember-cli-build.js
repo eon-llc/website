@@ -21,6 +21,15 @@ module.exports = function(defaults) {
         },
       },
     },
+    'ember-mdi': {
+      icons: [
+        'help-circle',
+        'twitter',
+        'github-face',
+        'medium',
+        'youtube',
+      ],
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated

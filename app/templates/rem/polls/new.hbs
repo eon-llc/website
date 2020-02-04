@@ -1,39 +1,106 @@
-<div id="poll-new" class="content">
-    <div class="container">
-        {{bread-crumbs tagName="ul" outputStyle="bootstrap" linkable=true}}
+<div id="rem-polls-new" class="content">
+    <div class="section">
+        <div class="container">
 
-        <form>
-            <div class="row">
-                <div class="col-8">
-                    <input type="text" name="subject" placeholder="Poll Subject">
+            {{bread-crumbs tagName="ul" outputStyle="bootstrap" linkable=true}}
 
+            <PollsToolbar @account={{this.account}} @login={{action "scatterLogin"}} @logout={{action "scatterLogout"}} @creating={{true}}/>
 
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label for="is_token_poll">Token Poll</label>
-                        <Input @id="is_token_poll" @type="checkbox" @name="is_token_poll" @checked={{this.is_token_poll}} />
+            {{#if this.error}}
+                <p class="error">{{this.error}}</p>
+            {{/if}}
+
+            <form {{action "validate" on="submit"}}>
+                <div class="row">
+                    <div class="col-12 col-md-7 inputs">
+
+                        <label for="subject">Poll Subject</label>
+                        <Input @id="subject" @name="subject" @value={{this.subject}} class="form-control" @placeholder="What is the subject of this poll?" required=true/>
+
+                        <label for="description">Poll Description</label>
+                        <Textarea @id="description" @name="description" @value={{this.description}} class="form-control" @placeholder="If necessary, include a detailed description." rows="4"/>
+
+                        <label>Options</label>
+
+                        {{#each this.options as |option|}}
+                            <div class="input-group option">
+
+                                <Input class="form-control" placeholder="Option" @value={{option.name}}/>
+
+                                {{#if can_remove_option}}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" {{action "removeOption" option}}>Remove</button>
+                                    </div>
+                                {{/if}}
+                            </div>
+                        {{/each}}
+
+                        {{#if can_add_option}}
+                            <button class="btn btn-sm btn-secondary" {{action "addOption"}}>Add an option</button>
+                        {{/if}}
+
                     </div>
-                    <div class="form-group">
-                        <label for="producers_only">Producers Only</label>
-                        <Input @id="producers_only" @type="checkbox" @name="producers_only" @checked={{this.producers_only}} />
-                    </div>
-                    <div class="form-group">
-                        <label for="guardians_only">Guardians Only</label>
-                        <Input @id="guardians_only" @type="checkbox" @name="guardians_only" @checked={{this.guardians_only}} />
-                    </div>
-                    <div class="form-group">
-                        <label>Poll Expiration</label>
-                        <Input @id="enable_expiration" @type="checkbox" @name="enable_expiration" @checked={{this.enable_expiration}} />
-                        <div>
-                            {{ember-flatpickr
-                                disable=(not enable_expiration)
-                                onChange=(action (mut expires_at))
-                            }}
+                    <div class="col-12 col-md-4 offset-md-1 settings">
+                        <div class="form-group">
+                            <label for="is_token_poll">
+                                Token Poll
+                                <span>
+                                    {{mdi-icon 'help-circle'}}
+                                    <BsPopover @triggerEvents="hover">Regular poll is 1 account = 1 vote. A token poll is 1 staked token = 1 vote.</BsPopover>
+                                </span>
+                            </label>
+                            <Input @id="is_token_poll" @type="checkbox" @name="is_token_poll" @checked={{this.is_token_poll}} class="switch" />
+                        </div>
+                        <div class="form-group">
+                            <label for="producers_only">
+                                Producers Only
+                                <span>
+                                    {{mdi-icon 'help-circle'}}
+                                    <BsPopover @triggerEvents="hover">Only producers can vote.</BsPopover>
+                                </span>
+                            </label>
+                            <Input @id="producers_only" @type="checkbox" @name="producers_only" @checked={{this.producers_only}} class="switch" />
+                        </div>
+                        <div class="form-group">
+                            <label for="guardians_only">
+                                Guardians Only
+                                <span>
+                                    {{mdi-icon 'help-circle'}}
+                                    <BsPopover @triggerEvents="hover">Only guardians can vote.</BsPopover>
+                                </span>
+                            </label>
+                            <Input @id="guardians_only" @type="checkbox" @name="guardians_only" @checked={{this.guardians_only}} class="switch" />
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Poll Expiration
+                                <span>
+                                    {{mdi-icon 'help-circle'}}
+                                    <BsPopover @triggerEvents="hover">Voting will be disabled after this date, by UTC timezone.</BsPopover>
+                                </span>
+                            </label>
+                            <div class="d-flex expiration">
+                                <Input @id="enable_expiration" @type="checkbox" @name="enable_expiration" @checked={{this.enable_expiration}} class="switch" />
+                                <div>
+                                    {{ember-flatpickr
+                                        onChange=(action (mut this.expires_at))
+                                        enableTime=false
+                                        minDate=this.minDate
+                                        class=(concat (if this.enable_expiration 'visible ' '') "transparent form-control")
+                                    }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+                <div class="submit-wrap">
+                    <button type="submit" id="submit" class="btn btn-primary btn-block">Create Poll</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <hr>
+
+    {{vote-for-us}}
 </div>
