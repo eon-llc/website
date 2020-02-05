@@ -24,7 +24,13 @@
                             <span>{{if poll.is_token_poll 'token' 'account'}}</span>
                         </div>
                         <div class="expires">
-                            <label>ends</label>
+                            <label>
+                                {{#if poll.is_open}}
+                                    ends
+                                {{else}}
+                                    ended
+                                {{/if}}
+                            </label>
                             {{#if (eq poll.expires_at '1970-01-01T00:00:00.000')}}
                                 <span>never</span>
                             {{else}}

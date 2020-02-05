@@ -5,7 +5,19 @@ import { set } from '@ember/object';
 export default Controller.extend({
 
     parent: controller('rem.index'),
-    polls: computed.alias('model.polls'),
+    polls: computed.map('model.polls', function(poll){
+
+        if(poll.expires_at === '1970-01-01T00:00:00.000') {
+            poll.is_open = true;
+        } else {
+            const expires_at = Date.parse(poll.expires_at);
+            const now = new Date();
+            now.setHours(0,0,0,0);
+            poll.is_open = expires_at > now;
+        }
+
+        return poll;
+    }),
     account: computed.alias('parent.account'),
 
     init() {
