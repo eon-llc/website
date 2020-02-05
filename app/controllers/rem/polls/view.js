@@ -5,6 +5,7 @@ import { computed } from '@ember/object';
 import ScatterJS from '@scatterjs/core';
 import ScatterEOS from '@scatterjs/eosjs2';
 import {JsonRpc, Api} from 'eosjs';
+import { htmlSafe } from '@ember/template';
 
 ScatterJS.plugins( new ScatterEOS() );
 
@@ -20,6 +21,39 @@ export default Controller.extend({
     account: computed.alias('parent.account'),
     poll: computed.alias('model.poll'),
     votes: computed.alias('model.votes'),
+    results: computed('poll', 'votes', 'account', function() {
+
+        const poll = this.get('poll');
+        const votes = this.get('votes');
+        const account = this.get('account');
+
+        let results = [...poll.options];
+
+        const total = results.reduce(function (total, option) {
+            if(poll.is_token_poll) {
+                return total + (option.votes / 10000);
+            } else {
+                return total + option.votes;
+            }
+        }, 0);
+
+        for(let i=0; i<results.length; i++) {
+            for(let k=0; k<votes.length; k++) {
+                if(votes[k].user === account.name && i === votes[k].option_id) {
+                    results[i].voted = true;
+                }
+
+                if(poll.is_token_poll) {
+                    results[i].votes = results[i].votes / 10000;
+                }
+
+                results[i].percent = results[i].votes / total * 100;
+                results[i].width = htmlSafe(`width: ${results[i].percent}%`);
+            }
+        }
+
+        return results;
+    }),
     poll_is_open: computed('poll.expires_at', function() {
 
         if(this.get('poll.expires_at') === '1970-01-01T00:00:00.000') return true;
@@ -29,7 +63,7 @@ export default Controller.extend({
         now.setHours(0,0,0,0);
         return expires_at > now;
     }),
-    can_vote: computed('votes', function() {
+    can_vote: computed('votes', 'account', function() {
 
         const votes = this.get('votes');
         const account = this.get('account');

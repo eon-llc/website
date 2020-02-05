@@ -38,7 +38,11 @@
 
                     <div class="ends">
                         <label>
-                            ends
+                            {{#if poll_is_open}}
+                                ends
+                            {{else}}
+                                ended
+                            {{/if}}
                             <span>
                                 {{mdi-icon 'help-circle'}}
                                 <BsPopover @triggerEvents="hover">
@@ -86,24 +90,36 @@
                             {{/if}}
                         </div>
 
-                        {{#if poll_is_open}}
+                        {{#if (and poll_is_open can_vote)}}
 
-                            {{#if can_vote}}
-                                <form {{action "castVote" on="submit"}}>
-                                    {{#each poll.options as |option index|}}
-                                        <div class="custom-control custom-radio option">
-                                            <input type="radio" class="custom-control-input" id={{index}} name="vote" value={{option.name}}>
-                                            <label class="custom-control-label" for={{index}}>{{option.name}}</label>
-                                        </div>
-                                    {{/each}}
+                            <form {{action "castVote" on="submit"}}>
+                                {{#each poll.options as |option index|}}
+                                    <div class="custom-control custom-radio option">
+                                        <input type="radio" class="custom-control-input" id={{index}} name="vote" value={{option.name}}>
+                                        <label class="custom-control-label" for={{index}}>{{option.name}}</label>
+                                    </div>
+                                {{/each}}
 
-                                    <button class="btn btn-block btn-primary" id="submit">Vote</button>
-                                </form>
-                            {{else}}
-                                <div class="voted"><span>You already voted.</span></div>
-                            {{/if}}
+                                <button class="btn btn-block btn-primary" id="submit">Vote</button>
+                            </form>
+
                         {{else}}
-                            <div class="ended"><span>This poll has ended.</span></div>
+
+                            {{#each results as |result index|}}
+                                <div class="result">
+                                    <span class="d-flex">
+                                        <label>{{result.name}}</label>
+                                        ({{result.votes}} votes)
+                                        {{#if result.voted}}
+                                            {{mdi-icon "check-bold"}}
+                                        {{/if}}
+                                    </span>
+                                    <div class="base">
+                                        <div class="bar" style={{result.width}}></div>
+                                    </div>
+                                </div>
+                            {{/each}}
+
                         {{/if}}
                     </div>
                 </div>
