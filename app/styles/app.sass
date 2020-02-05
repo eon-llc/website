@@ -1018,16 +1018,19 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       margin: 0 0 1rem 0
     div
       white-space: pre-wrap
+      margin: 0 0 1rem 0
   .vote
     border: 2px solid #f1f1f1
     border-radius: 0.5rem
     .heading
       background: #f1f1f1
       padding: 1rem
+      align-items: baseline
+      display: flex
       label
         font-family: "Titillium Web", sans-serif
         font-weight: 600
-        margin: 0
+        margin: 0 0.5rem 0 0
     form
       padding: 1rem
       .option
@@ -1036,13 +1039,27 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
         margin-bottom: 1rem
         label
           display: block
-    .voted, .ended
-      text-align: center
+    .result
       padding: 1rem
-      min-height: 14rem
-      display: flex
-      align-items: center
-      justify-content: center
+      label
+        font-family: "Titillium Web", sans-serif
+        font-weight: 600
+        margin: 0 0.5rem 0 0
+      svg
+        fill: #6bc507
+        margin: 0 0 0 0.5rem
+      &:not(:last-of-type)
+        border-bottom: 2px solid #f1f1f1
+      .base
+        width: 100%
+        background: #f1f1f1
+        border-radius: 0.25rem
+        .bar
+          height: 0.25rem
+          background: #6772e5
+          margin: 0.5rem 0 0 0
+          padding: 0.25rem
+          border-radius: 0.25rem
 
 @keyframes PULSE
   0%
