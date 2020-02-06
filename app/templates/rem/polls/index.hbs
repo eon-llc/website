@@ -13,15 +13,21 @@
                     <LinkTo @route="rem.polls.view" @model={{poll.id}} class="poll d-flex">
                         <div class="subject">
                             <label>{{poll.subject}}</label>
-                            <span>{{truncate-text poll.description limit=50}}</span>
+                            <span>
+                                {{#if poll.description}}
+                                    {{truncate-text poll.description limit=50}}
+                                {{else}}
+                                    No description.
+                                {{/if}}
+                            </span>
                         </div>
                         <div class="votes">
                             <label>votes</label>
-                            <span>{{total-poll-votes poll.options poll.is_token_poll}}</span>
+                            <span class="badge badge-pill badge-primary">{{total-poll-votes poll.options poll.is_token_poll}}</span>
                         </div>
                         <div class="votes">
                             <label>type</label>
-                            <span>{{if poll.is_token_poll 'token' 'account'}}</span>
+                            <span class="badge badge-pill badge-primary">{{if poll.is_token_poll 'token' 'account'}}</span>
                         </div>
                         <div class="expires">
                             <label>
@@ -31,23 +37,27 @@
                                     ended
                                 {{/if}}
                             </label>
-                            {{#if (eq poll.expires_at '1970-01-01T00:00:00.000')}}
-                                <span>never</span>
-                            {{else}}
-                                <span>{{moment-from (moment-utc poll.expires_at)}}</span>
-                            {{/if}}
+                            <span class="badge badge-pill badge-primary">
+                                {{#if (eq poll.expires_at '1970-01-01T00:00:00.000')}}
+                                    never
+                                {{else}}
+                                    {{moment-from (moment-utc poll.expires_at)}}
+                                {{/if}}
+                            </span>
                         </div>
                         <div class="for">
                             <label>for</label>
-                            {{#if (and poll.guardians_only poll.producers_only)}}
-                                <span class="badge badge-pill badge-primary">producers &amp; guardians</span>
-                            {{else if poll.producers_only}}
-                                <span class="badge badge-pill badge-primary">producers</span>
-                            {{else if poll.guardians_only}}
-                                <span class="badge badge-pill badge-primary">guardians</span>
-                            {{else}}
-                                <span class="badge badge-pill badge-primary">everyone</span>
-                            {{/if}}
+                            <span class="badge badge-pill badge-primary">
+                                {{#if (and poll.guardians_only poll.producers_only)}}
+                                    producers &amp; guardians
+                                {{else if poll.producers_only}}
+                                    producers
+                                {{else if poll.guardians_only}}
+                                    guardians
+                                {{else}}
+                                    everyone
+                                {{/if}}
+                            </span>
                         </div>
                     </LinkTo>
                 {{/each}}

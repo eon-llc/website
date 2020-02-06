@@ -4,14 +4,24 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import ScatterJS from '@scatterjs/core';
 import ScatterEOS from '@scatterjs/eosjs2';
-import {JsonRpc, Api} from 'eosjs';
+import {JsonRpc, Api, RpcError} from 'eosjs';
 import { htmlSafe } from '@ember/template';
+import moment from 'moment';
 
 ScatterJS.plugins( new ScatterEOS() );
 
 const network = ScatterJS.Network.fromJson(ENV.APP.RemmeNetwork);
 
 const rpc = new JsonRpc(network.fullhost());
+
+const colors = [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)'
+]
 
 export default Controller.extend({
 
@@ -21,6 +31,7 @@ export default Controller.extend({
     account: computed.alias('parent.account'),
     poll: computed.alias('model.poll'),
     votes: computed.alias('model.votes'),
+    comments: computed.alias('model.comments'),
     results: computed('poll', 'votes', 'account', function() {
 
         const poll = this.get('poll');
@@ -74,17 +85,86 @@ export default Controller.extend({
 
         return true;
     }),
+    chart_data: computed('poll', 'votes', function() {
+
+        const poll = this.get('poll');
+        const votes = this.get('votes');
+
+        let days = [];
+        let datasets = [];
+        let tally = [];
+        let currentDate = moment(poll.created_at).subtract(1, 'days');
+
+        if(votes.length > 0) {
+            const stopDate = moment(votes.lastObject.created_at);
+
+            // x axis of days
+            while (currentDate <= stopDate) {
+                days.push(moment(currentDate).format('YYYY-MM-DD'));
+                currentDate = moment(currentDate).add(1, 'days');
+            }
+        }
+
+        for(let i=0; i<poll.options.length; i++) {
+            for(let d=0; d<days.length; d++) {
+
+                let day_has_votes = false;
+                let option = poll.options[i].name;
+
+                for(let v=0; v<votes.length; v++) {
+
+                    let vote_date = moment(votes[v].created_at).format('YYYY-MM-DD');
+
+                    // console.log(poll.options[i], " option");
+                    // console.log(votes[v], " vote");
+                    // console.log(days[d], " day");
+                    // console.log(i === votes[v].option_id, vote_date === days[d]);
+                    // console.log("-----------");
+
+                    if(!tally.includes(option)) {
+                        tally[option] = 0;
+                    }
+
+                    if(!datasets[option]) {
+                        datasets[option] = {
+                            label: option,
+                            data: [],
+                            backgroundColor: colors[i],
+                            borderColor: colors[i],
+                            fill: false
+                        }
+                    }
+
+                    if(i === votes[v].option_id && vote_date === days[d]) {
+                        tally[option] += 1;
+                        datasets[option].data.push(tally[option]);
+                        day_has_votes = true;
+                    }
+
+                }
+
+                if(!day_has_votes) datasets[option].data.push(0);
+            }
+        }
+
+        let final_dataset = [];
+        for (let value of Object.values(datasets)) {
+            final_dataset.push(value);
+        }
+
+        return {
+            labels: days,
+            datasets: final_dataset
+        };
+    }),
 
     init() {
         this._super();
 
         this.line_chart_options = {
             responsive: true,
+            maintainAspectRatio: false,
             spanGaps: false,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            },
             legend: {
                 display: false
             },
@@ -107,17 +187,22 @@ export default Controller.extend({
             },
             scales: {
                 xAxes: [{
-                    display: false,
+                    display: true,
                     scaleLabel: {
-                        display: true,
-                        labelString: 'Time'
+                        display: false,
+                        labelString: 'Days'
                     }
                 }],
                 yAxes: [{
                     display: true,
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value) { if (Number.isInteger(value)) { return value; } },
+                        stepSize: 1
+                    },
                     scaleLabel: {
-                        display: true,
-                        labelString: 'Exec. time (ms)'
+                        display: false,
+                        labelString: 'Votes'
                     }
                 }]
             },
@@ -126,6 +211,10 @@ export default Controller.extend({
 
     actions: {
         castVote() {
+            if(!this.account) {
+                this.notifications.error(`Please log in before voting.`, 'Not Logged In');
+                return false;
+            }
 
             const submit_btn = document.getElementById('submit');
             submit_btn.disabled=true;
@@ -164,10 +253,76 @@ export default Controller.extend({
                         submit_btn.disabled = false;
                         submit_btn.innerText = 'Vote';
                         this.send("refreshCurrentRoute");
-                    }).catch( () => {
-                        this.notifications.error(`Something went wrong and we couldn't cast your vote.`, 'Failed to Vote');
+                    }).catch( (e) => {
+
+                        let error = "Something went wrong.";
+                        if (e instanceof RpcError) error = e.json.error.details.firstObject.message;
+
+                        this.notifications.error(error, 'Failed to Post');
                         submit_btn.disabled = false;
                         submit_btn.innerText = 'Vote';
+                    });
+                }
+            });
+        },
+        postComment() {
+
+            if(!this.account) {
+                this.notifications.error(`Please log in before commenting.`, 'Not Logged In');
+                return false;
+            }
+
+            this.set('error', false);
+
+            if(!this.message.length) this.set('error', "Post message can't be blank.");
+
+            if(this.error) return false;
+
+            const submit_btn = document.getElementById('vote');
+            submit_btn.disabled=true;
+            submit_btn.innerText = 'Connecting to Scatter...';
+
+            ScatterJS.connect(ENV.APP.name, {network}).then( connected => {
+                if(!connected) {
+
+                    this.notifications.error(`We couldn't detect Scatter, make sure it's open.`, 'No Scatter');
+
+                } else {
+
+                    const eos = ScatterJS.eos(network, Api, {rpc});
+                    const data = {
+                        poll_id: this.poll.id,
+                        user: this.account.name,
+                        message: this.message,
+                    }
+
+                    eos.transact({
+                        actions: [{
+                            account: 'pollingremme',
+                            name: 'comment',
+                            authorization: [{
+                                actor: this.account.name,
+                                permission: this.account.authority,
+                            }],
+                            data: data
+                        }]
+                    }, {
+                        blocksBehind: 3,
+                        expireSeconds: 30,
+                    }).then( () => {
+                        this.notifications.error(`Your comment has been posted.`, 'Comment Posted');
+                        submit_btn.disabled = false;
+                        submit_btn.innerText = 'Post Comment';
+                        this.message = "";
+                        this.send("refreshCurrentRoute");
+                    }).catch( (e) => {
+
+                        let error = "Something went wrong.";
+                        if (e instanceof RpcError) error = e.json.error.details.firstObject.message;
+
+                        this.notifications.error(error, 'Failed to Post');
+                        submit_btn.disabled = false;
+                        submit_btn.innerText = 'Post Comment';
                     });
                 }
             });

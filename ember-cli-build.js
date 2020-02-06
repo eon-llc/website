@@ -29,7 +29,10 @@ module.exports = function(defaults) {
         'medium',
         'youtube',
         'check',
-        'check-bold'
+        'check-bold',
+        'account',
+        'account-circle',
+        'message-text',
       ],
     },
   });

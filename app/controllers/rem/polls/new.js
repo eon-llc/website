@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import ScatterJS from '@scatterjs/core';
 import ScatterEOS from '@scatterjs/eosjs2';
-import {JsonRpc, Api} from 'eosjs';
+import {JsonRpc, Api, RpcError} from 'eosjs';
 
 ScatterJS.plugins( new ScatterEOS() );
 
@@ -114,8 +114,12 @@ export default Controller.extend({
                     submit_btn.disabled = false;
                     submit_btn.innerText = 'Create Poll';
                     this.transitionToRoute('rem.polls.index');
-                }).catch( () => {
-                    this.notifications.error(`Something went wrong and we couldn't create the poll.`, 'Failed to Create');
+                }).catch( (e) => {
+
+                    let error = "Something went wrong.";
+                    if (e instanceof RpcError) error = e.json.error.details.firstObject.message;
+
+                    this.notifications.error(error, 'Failed to Post');
                     submit_btn.disabled = false;
                     submit_btn.innerText = 'Create Poll';
                 });
