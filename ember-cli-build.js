@@ -28,6 +28,11 @@ module.exports = function(defaults) {
         'github-face',
         'medium',
         'youtube',
+        'check',
+        'check-bold',
+        'account',
+        'account-circle',
+        'message-text',
       ],
     },
   });

@@ -3,7 +3,7 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'website',
-    locationType: 'router-scroll',
+    locationType: 'auto',
     historySupportMiddleware: true,
     podModulePrefix: 'app/components',
     environment,

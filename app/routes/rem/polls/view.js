@@ -7,6 +7,7 @@ export default Route.extend({
         return RSVP.hash({
             poll: this.getPoll(params.id),
             votes: this.getVotes(params.id),
+            comments: this.getComments(params.id),
         });
     },
     afterModel(model) {
@@ -39,13 +40,31 @@ export default Route.extend({
             url: 'https://rem.eon.llc/v1/chain/get_table_rows',
             data: {
                 "table":"votes",
+                "scope":id,
+                "code":"pollingremme",
+                "limit":1000,
+                "json":true
+            },
+        })
+        .then( response => {
+            return response.data.rows;
+        })
+        .catch(() => { return false; });
+    },
+    getComments(id) {
+        return axios({
+            method: 'post',
+            url: 'https://rem.eon.llc/v1/chain/get_table_rows',
+            data: {
+                "table":"comments",
                 "scope":"pollingremme",
                 "code":"pollingremme",
                 "lower_bound": id,
                 "upper_bound": id,
                 "table_key": 'poll_id',
                 "limit":1000,
-                "json":true
+                "json":true,
+                "reverse": true,
             },
         })
         .then( response => {
@@ -57,5 +76,9 @@ export default Route.extend({
         refreshCurrentRoute(){
             this.refresh();
         }
+    },
+    activate: function() {
+        this._super();
+        window.scrollTo(0, 0);
     }
 });

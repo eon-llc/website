@@ -11,7 +11,7 @@
                 <div class="stats">
                     <div class="votes">
                         <label>votes</label>
-                        <span>{{total-poll-votes poll.options poll.is_token_poll}}</span>
+                        <span class="badge badge-pill badge-primary">{{total-poll-votes poll.options poll.is_token_poll}}</span>
                     </div>
 
                     <div class="type">
@@ -22,7 +22,7 @@
                                 <BsPopover @triggerEvents="hover">Regular poll is 1 account = 1 vote. A token poll is 1 staked token = 1 vote.</BsPopover>
                             </span>
                         </label>
-                        <span>{{if poll.is_token_poll 'token' 'account'}}</span>
+                        <span class="badge badge-pill badge-primary">{{if poll.is_token_poll 'token' 'account'}}</span>
                     </div>
 
                     <div class="started">
@@ -33,12 +33,16 @@
                                 <BsPopover @triggerEvents="hover">Created on {{moment poll.created_at}}</BsPopover>
                             </span>
                         </label>
-                        <span>{{moment-from (moment-utc poll.created_at)}}</span>
+                        <span class="badge badge-pill badge-primary">{{moment-from (moment-utc poll.created_at)}}</span>
                     </div>
 
                     <div class="ends">
                         <label>
-                            ends
+                            {{#if poll_is_open}}
+                                ends
+                            {{else}}
+                                ended
+                            {{/if}}
                             <span>
                                 {{mdi-icon 'help-circle'}}
                                 <BsPopover @triggerEvents="hover">
@@ -50,16 +54,18 @@
                                 </BsPopover>
                             </span>
                         </label>
-                        {{#if (eq poll.expires_at '1970-01-01T00:00:00.000')}}
-                            <span>never</span>
-                        {{else}}
-                            <span>{{moment-from (moment-utc poll.expires_at)}}</span>
-                        {{/if}}
+                        <span class="badge badge-pill badge-primary">
+                            {{#if (eq poll.expires_at '1970-01-01T00:00:00.000')}}
+                                never
+                            {{else}}
+                                {{moment-from (moment-utc poll.expires_at)}}
+                            {{/if}}
+                        </span>
                     </div>
                 </div>
 
                 <div class="chart">
-                    {{ember-chart type="line" data="" options=line_chart_options}}
+                    {{ember-chart type="line" data=chart_data options=line_chart_options}}
                 </div>
             </div>
 
@@ -67,7 +73,18 @@
                 <div class="col-12 col-md-7 subject">
 
                     <h2>{{poll.subject}}</h2>
-                    <div>{{poll.description}}</div>
+
+                    <span class="author">
+                        by <a href="https://remme.bloks.io/account/{{poll.user}}" target="_blank" rel="noopener noreferrer">{{poll.user}}</a>
+                    </span>
+
+                    <div class="description">
+                        {{#if poll.description}}
+                            <div class="pre">{{poll.description}}</div>
+                        {{else}}
+                            No description provided.
+                        {{/if}}
+                    </div>
 
                 </div>
 
@@ -86,26 +103,95 @@
                             {{/if}}
                         </div>
 
-                        {{#if poll_is_open}}
+                        {{#if (and poll_is_open can_vote)}}
 
-                            {{#if can_vote}}
-                                <form {{action "castVote" on="submit"}}>
-                                    {{#each poll.options as |option index|}}
-                                        <div class="custom-control custom-radio option">
-                                            <input type="radio" class="custom-control-input" id={{index}} name="vote" value={{option.name}}>
-                                            <label class="custom-control-label" for={{index}}>{{option.name}}</label>
-                                        </div>
-                                    {{/each}}
+                            <form {{action "castVote" on="submit"}}>
+                                {{#each poll.options as |option index|}}
+                                    <div class="custom-control custom-radio option">
+                                        <input type="radio" class="custom-control-input" id={{index}} name="vote" value={{option.name}}>
+                                        <label class="custom-control-label" for={{index}}>{{option.name}}</label>
+                                    </div>
+                                {{/each}}
 
-                                    <button class="btn btn-block btn-primary" id="submit">Vote</button>
-                                </form>
-                            {{else}}
-                                <div class="voted"><span>You already voted.</span></div>
-                            {{/if}}
+                                {{#if account}}
+                                    <button class="btn btn-block btn-primary" type="submit" id="submit">Vote</button>
+                                {{else}}
+                                    <span class="not-logged-in">Log In to Vote</span>
+                                {{/if}}
+                            </form>
+
                         {{else}}
-                            <div class="ended"><span>This poll has ended.</span></div>
+
+                            {{#each results as |result index|}}
+                                <div class="result">
+                                    <span class="d-flex">
+                                        <label>{{result.name}}</label>
+                                        ({{result.votes}} votes)
+                                        {{#if result.voted}}
+                                            {{mdi-icon "check-bold"}}
+                                        {{/if}}
+                                    </span>
+                                    <div class="base">
+                                        <div class="bar" style={{result.width}}></div>
+                                    </div>
+                                </div>
+                            {{/each}}
+
                         {{/if}}
                     </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-12 col-md-7">
+
+                    <form {{action "postComment" on="submit"}} class="new-comment">
+
+                        {{#if this.error}}
+                            <p class="error">{{this.error}}</p>
+                        {{/if}}
+
+                        <Textarea @id="message" @name="message" @value={{this.message}} class="form-control" @placeholder="Have something to say?" rows="4" required={{true}}/>
+
+                        {{#if account}}
+                            <button class="btn btn-block btn-primary" type="submit" id="vote">Post Comment</button>
+                        {{else}}
+                            <span class="not-logged-in">Log In to Comment</span>
+                        {{/if}}
+                    </form>
+
+                    <div class="comments">
+                        {{#if comments}}
+                            {{#each comments as |comment|}}
+                                <div class="comment">
+
+                                    <header>
+                                        <span class="avatar">{{mdi-icon 'account-circle'}}</span>
+                                        <span class="info">
+                                            <span class="name">
+                                                <a href="https://remme.bloks.io/account/{{comment.user}}" target="_blank" rel="noopener noreferrer"><strong>{{comment.user}}</strong></a>
+                                            </span>
+                                            <span class="timestamp">
+                                                on {{moment-format (utc comment.created_at) 'MM/DD/YYYY'}}
+                                            </span>
+                                        </span>
+                                    </header>
+
+                                    <div>{{comment.message}}</div>
+
+                                </div>
+                            {{/each}}
+                        {{else}}
+
+                            <div class="no-comments">
+                                {{mdi-icon 'message-text'}}
+                                No Comments.
+                            </div>
+                        {{/if}}
+                    </div>
+
                 </div>
             </div>
         </div>

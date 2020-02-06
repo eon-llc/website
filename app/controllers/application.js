@@ -1,9 +1,12 @@
 import { equal } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import ENV from 'website/config/environment';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
-    isIndex: equal('currentRouteName', 'index'),
+    router: service(),
+
+    isIndex: equal('router.currentRoute.name', 'index'),
     voteURL: ENV.APP.voteURL,
     actions: {
         toggleMobileNav() {
