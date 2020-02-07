@@ -15,12 +15,16 @@ const network = ScatterJS.Network.fromJson(ENV.APP.RemmeNetwork);
 const rpc = new JsonRpc(network.fullhost());
 
 const colors = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)'
+    'rgba(255, 99, 132, 1)',    // pink
+    'rgba(54, 162, 235, 1)',    // blue
+    'rgba(255, 206, 86, 1)',    // yellow
+    'rgba(75, 192, 192, 1)',    // teal
+    'rgba(153, 102, 255, 1)',   // violet
+    'rgba(255, 159, 64, 1)',    // orange
+    'rgba(85, 202, 25, 1)',     // green
+    'rgba(82, 26, 191, 1)',     // purple
+    'rgba(218, 5, 5, 1)',       // red
+    'rgba(156, 146, 136, 1)',   // gray
 ]
 
 export default Controller.extend({
@@ -93,15 +97,15 @@ export default Controller.extend({
         let days = [];
         let datasets = [];
         let tally = [];
-        let currentDate = moment(poll.created_at).subtract(1, 'days');
+        let currentDate = moment(poll.created_at).utc().subtract(1, 'days');
 
         if(votes.length > 0) {
             const stopDate = moment(votes.lastObject.created_at);
 
             // x axis of days
             while (currentDate <= stopDate) {
-                days.push(moment(currentDate).format('YYYY-MM-DD'));
-                currentDate = moment(currentDate).add(1, 'days');
+                days.push(moment(currentDate).utc().format('YYYY-MM-DD'));
+                currentDate = moment(currentDate).utc().add(1, 'days');
             }
         }
 
@@ -113,7 +117,7 @@ export default Controller.extend({
 
                 for(let v=0; v<votes.length; v++) {
 
-                    let vote_date = moment(votes[v].created_at).format('YYYY-MM-DD');
+                    let vote_date = moment(votes[v].created_at).utc().format('YYYY-MM-DD');
 
                     // console.log(poll.options[i], " option");
                     // console.log(votes[v], " vote");
@@ -136,7 +140,7 @@ export default Controller.extend({
                     }
 
                     if(i === votes[v].option_id && vote_date === days[d]) {
-                        tally[option] += 1;
+                        tally[option] += votes[v].weight === 1 ? 1 : votes[v].weight / 10000;
                         datasets[option].data.push(tally[option]);
                         day_has_votes = true;
                     }
@@ -169,7 +173,7 @@ export default Controller.extend({
                 display: false
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Poll Votes'
             },
             tooltips: {
@@ -198,7 +202,6 @@ export default Controller.extend({
                     ticks: {
                         beginAtZero: true,
                         callback: function (value) { if (Number.isInteger(value)) { return value; } },
-                        stepSize: 1
                     },
                     scaleLabel: {
                         display: false,
