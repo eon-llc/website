@@ -607,15 +607,16 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
         transition: margin 0.5s
   .utils
     border-bottom: 1px solid #eee
+    .wrap:first-of-type
+      border-bottom: 1px solid #eee
     .item
       padding: 0 3rem
-      &.benchmark
-        padding-left: 0
-      &.permissions
-        padding-right: 0
-      &.map
+      &.polls
         border-right: 1px solid #eee
-        border-left: 1px solid #eee
+        padding-left: 0
+      &.map
+        padding-left: 0
+        border-right: 1px solid #eee
       a
         padding: 5rem 0
         p
@@ -1300,11 +1301,9 @@ footer
       padding: 3rem 0
       border-bottom: 1px solid #eee
       .item
-        padding: 0 2rem
-        &.benchmark
-          padding-left: 2rem
-        &.map
-          border-top: 1px solid #eee
+        &.polls, &.benchmark, &.map, &.permissions
+          padding: 0 2rem
+        &:not(:last-of-type)
           border-bottom: 1px solid #eee
         a
           padding: 2rem 0
