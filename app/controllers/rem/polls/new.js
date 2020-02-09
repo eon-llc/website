@@ -113,6 +113,15 @@ export default Controller.extend({
                     this.notifications.error(`Your poll has been created, it may take a few moments to be processed on chain.`, 'Poll created');
                     submit_btn.disabled = false;
                     submit_btn.innerText = 'Create Poll';
+
+                    this.set("subject", "");
+                    this.set("description", "");
+                    this.set("options", [{name: "Yes"}, {name: "No"}]);
+                    this.set("is_token_poll", false);
+                    this.set("producers_only", false);
+                    this.set("guardians_only", false);
+                    this.set("expires_at", "");
+
                     this.transitionToRoute('rem.polls.index');
                 }).catch( (e) => {
 

@@ -682,9 +682,12 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       margin: 0 2rem 0 0
       flex-direction: row
       justify-content: center
-      & > div
-        flex-direction: column
-        justify-content: center
+      .user
+        display: flex
+        flex-direction: row
+        .user-name
+          flex-direction: column
+          justify-content: center
       h5
         margin: 0 0 0.25rem 0
         line-height: 1rem
@@ -950,7 +953,15 @@ body:not(.index) .navbar-nav .nav-link:not(.social)::after
       margin: 0
       display: flex
     .subject
-      width: 50%
+      width: 60%
+    .votes
+      width: 10%
+    .type
+      width: 10%
+    .expires
+      width: 10%
+    .for
+      width: 10%
 
 #rem-polls-new
   .error
@@ -1337,6 +1348,34 @@ footer
             margin-top: 1rem
           .actions
             margin: 1rem 0 0 2rem
+
+  #rem-polls, #rem-polls-view, #rem-polls-new
+    .toolbar
+      flex-wrap: wrap
+      .account
+        width: 100%
+        margin: 0
+        justify-content: space-between
+      .new-poll
+        margin: 0.5rem 0 0 0
+        width: 100%
+
+  #rem-polls
+    .poll
+      flex-wrap: wrap
+      .subject
+        width: 100%
+        border-bottom: 2px solid #f1f1f1
+        padding: 0 0 0.5rem 0
+        margin: 0 0 0.5rem 0
+      .votes
+        width: 25%
+      .type
+        width: 25%
+      .expires
+        width: 25%
+      .for
+        width: 25%
 
   footer
     .copyright

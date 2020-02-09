@@ -57,11 +57,8 @@ export default Route.extend({
             url: 'https://rem.eon.llc/v1/chain/get_table_rows',
             data: {
                 "table":"comments",
-                "scope":"pollingremme",
+                "scope":id,
                 "code":"pollingremme",
-                "lower_bound": id,
-                "upper_bound": id,
-                "table_key": 'poll_id',
                 "limit":1000,
                 "json":true,
                 "reverse": true,

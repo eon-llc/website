@@ -42,9 +42,9 @@ export default Controller.extend({
         const votes = this.get('votes');
         const account = this.get('account');
 
-        let results = [...poll.options];
+        let results = [];
 
-        const total = results.reduce(function (total, option) {
+        const total = poll.options.reduce(function (total, option) {
             if(poll.is_token_poll) {
                 return total + (option.votes / 10000);
             } else {
@@ -52,17 +52,31 @@ export default Controller.extend({
             }
         }, 0);
 
-        for(let i=0; i<results.length; i++) {
+        for(let i=0; i<poll.options.length; i++) {
             for(let k=0; k<votes.length; k++) {
+
+                if(!results[i]) results[i] = {name: poll.options[i].name};
+
                 if(votes[k].user === account.name && i === votes[k].option_id) {
                     results[i].voted = true;
                 }
 
                 if(poll.is_token_poll) {
-                    results[i].votes = results[i].votes / 10000;
+                    if(poll.options[i].votes === 0) {
+                        results[i].votes = 0;
+                        results[i].percent = 0;
+                    } else {
+                        results[i].votes = poll.options[i].votes / 10000;
+                        results[i].percent = poll.options[i].votes / 10000 / total * 100;
+                    }
+                } else {
+                    if(poll.options[i].votes === 0) {
+                        results[i].percent = 0;
+                    } else {
+                        results[i].percent = poll.options[i].votes / total * 100;
+                    }
                 }
 
-                results[i].percent = results[i].votes / total * 100;
                 results[i].width = htmlSafe(`width: ${results[i].percent}%`);
             }
         }
@@ -97,15 +111,15 @@ export default Controller.extend({
         let days = [];
         let datasets = [];
         let tally = [];
-        let currentDate = moment(poll.created_at).utc().subtract(1, 'days');
+        let startDate = moment.utc(poll.created_at).subtract(1, 'days');
 
         if(votes.length > 0) {
-            const stopDate = moment(votes.lastObject.created_at);
+            const stopDate = moment(votes.lastObject.created_at).utc();
 
             // x axis of days
-            while (currentDate <= stopDate) {
-                days.push(moment(currentDate).utc().format('YYYY-MM-DD'));
-                currentDate = moment(currentDate).utc().add(1, 'days');
+            while (startDate <= stopDate) {
+                days.push(startDate.format('YYYY-MM-DD'));
+                startDate.add(1, 'days');
             }
         }
 
@@ -146,8 +160,8 @@ export default Controller.extend({
                     }
 
                 }
-
-                if(!day_has_votes) datasets[option].data.push(0);
+                let prev_day_total = datasets[option].data[datasets[option].data.length-1] || 0;
+                if(!day_has_votes) datasets[option].data.push(prev_day_total);
             }
         }
 
@@ -316,7 +330,7 @@ export default Controller.extend({
                         this.notifications.error(`Your comment has been posted.`, 'Comment Posted');
                         submit_btn.disabled = false;
                         submit_btn.innerText = 'Post Comment';
-                        this.message = "";
+                        this.set("message", "");
                         this.send("refreshCurrentRoute");
                     }).catch( (e) => {
 
