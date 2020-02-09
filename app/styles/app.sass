@@ -1522,13 +1522,13 @@ input.switch
   top: 1rem
   right: 1rem
   .toast
+    opacity: 1
     background-color: #fff
     background-image: none
     padding: 1rem
     border: 2px solid #a8a9bd
     color: #888998
     border-radius: 0.5rem
-    transition: all 0.5s
     width: 19rem
     box-shadow: 0 0.55rem 1rem 0 rgba(0, 0, 0, 0.15)
     &:hover
@@ -1538,6 +1538,24 @@ input.switch
       color: #888998
     .toast-message
       color: #888998
+    .toast-close-button
+      position: absolute
+      right: 0
+      top: 0
+      height: 1.5rem
+      width: 1.5rem
+      justify-content: center
+      align-items: center
+      line-height: 1rem
+      display: flex
+      color: #454545
+      opacity: 0.5
+      transition: all 0.5s
+      &:hover
+        opacity: 1
+        transition: all 0.5s
+      &:active, &:focus
+        outline: none
 /* -----------------------------
   ANIMATIONS
   ----------------------------- */
