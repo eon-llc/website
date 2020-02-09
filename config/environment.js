@@ -60,7 +60,7 @@ module.exports = function(environment) {
 
   ENV['ember-toastr'] = {
     toastrOptions: {
-      closeButton: false,
+      closeButton: true,
       debug: false,
       newestOnTop: true,
       progressBar: false,
@@ -69,8 +69,8 @@ module.exports = function(environment) {
       onclick: null,
       showDuration: '300',
       hideDuration: '1000',
-      timeOut: '5000',
-      extendedTimeOut: '2000',
+      timeOut: '8000',
+      extendedTimeOut: '8000',
       showEasing: 'swing',
       hideEasing: 'linear',
       showMethod: 'fadeIn',

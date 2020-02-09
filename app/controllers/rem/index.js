@@ -52,8 +52,13 @@ export default Controller.extend({
             .catch(() => { return "offline"; });
         },
         scatterLogin() {
+
+            const login_btn = document.querySelector('.btn.login');
+            login_btn.disabled = true;
+
             ScatterJS.connect(ENV.APP.name, {network}).then(connected => {
                 if(!connected) {
+                    login_btn.disabled = false;
                     this.notifications.error(`We couldn't detect Scatter, make sure it's open.`, 'No Scatter');
                 } else {
                     ScatterJS.login().then(id => {
@@ -65,18 +70,27 @@ export default Controller.extend({
                             localStorage.setItem('rem-account', JSON.stringify(account));
                             this.notifications.info(`You have been logged in.`, 'Welcome');
                         }
+
+                        login_btn.disabled = false;
                     })
                     .catch(err => {
                         if(err.type === "identity_rejected") {
                             this.notifications.error(`You cancelled connection to Scatter.`, 'Connection Cancelled');
                         }
+
+                        login_btn.disabled = false;
                     });
                 }
             });
         },
         scatterLogout() {
+
+            const logout_btn = document.querySelector('.btn.logout');
+            logout_btn.disabled = true;
+
             ScatterJS.connect(ENV.APP.name, {network}).then(connected => {
                 if(!connected) {
+                    logout_btn.disabled = false;
                     this.notifications.error(`We couldn't detect Scatter, make sure it's open.`, 'No Scatter');
                 } else {
                     ScatterJS.scatter.forgetIdentity();
@@ -84,6 +98,11 @@ export default Controller.extend({
                         this.set('account', '');
                         localStorage.setItem('rem-account', JSON.stringify(''));
                         this.notifications.info(`You have been logged out.`, 'Goodbye');
+                        logout_btn.disabled = false;
+                    })
+                    .catch( () => {
+                        this.notifications.error(`Something went wrong, please try to log out one more time.`, 'Failed to Log Out');
+                        logout_btn.disabled = false;
                     });
                 }
             });
