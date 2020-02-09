@@ -12,7 +12,7 @@ export function totalPollVotes(params) {
     }
   }
 
-  return total;
+  return Math.floor(total);
 }
 
 export default helper(totalPollVotes);
