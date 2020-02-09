@@ -66,7 +66,7 @@ export default Controller.extend({
                         results[i].votes = 0;
                         results[i].percent = 0;
                     } else {
-                        results[i].votes = poll.options[i].votes / 10000;
+                        results[i].votes = Math.floor(poll.options[i].votes / 10000);
                         results[i].percent = poll.options[i].votes / 10000 / total * 100;
                     }
                 } else {
@@ -154,7 +154,7 @@ export default Controller.extend({
                     }
 
                     if(i === votes[v].option_id && vote_date === days[d]) {
-                        tally[option] += votes[v].weight === 1 ? 1 : votes[v].weight / 10000;
+                        tally[option] += votes[v].weight === 1 ? 1 : Math.floor(votes[v].weight / 10000);
                         datasets[option].data.push(tally[option]);
                         day_has_votes = true;
                     }

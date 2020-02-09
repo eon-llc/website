@@ -12,28 +12,43 @@
     </div>
 
     <div class="utils">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 item benchmark">
-                    {{#link-to "rem.benchmarks" class="d-block"}}
-                        <strong>REM Producer Benchmark</strong>
-                        <p>Benchmark that measures CPU performance of all producers on REM chain.</p>
-                        <span>View Benchmark <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
-                    {{/link-to}}
+        <div class="wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6 item polls">
+                        {{#link-to "rem.polls" class="d-block"}}
+                            <strong>REM Polls</strong>
+                            <p>Polling dapp build on REMchain to facilitate network governance.</p>
+                            <span>View Polls <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                        {{/link-to}}
+                    </div>
+                    <div class="col-12 col-md-6 item benchmark">
+                        {{#link-to "rem.benchmarks" class="d-block"}}
+                            <strong>REM Producer Benchmark</strong>
+                            <p>Benchmark that measures CPU performance of all producers on REM chain.</p>
+                            <span>View Benchmark <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                        {{/link-to}}
+                    </div>
                 </div>
-                <div class="col-12 col-md-4 item map">
-                    {{#link-to "rem.map" class="d-block"}}
-                        <strong>REM Producer Map</strong>
-                        <p>A global map of REM producer locations and distribution.</p>
-                        <span>View Map <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
-                    {{/link-to}}
-                </div>
-                <div class="col-12 col-md-4 item permissions">
-                    {{#link-to "rem.permissions" class="d-block"}}
-                        <strong>REM Account Permissions</strong>
-                        <p>See a detailed breakdown of your REM account permissions.</p>
-                        <span>View Permissions <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
-                    {{/link-to}}
+            </div>
+        </div>
+        <div class="wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6 item map">
+                        {{#link-to "rem.map" class="d-block"}}
+                            <strong>REM Producer Map</strong>
+                            <p>A global map of REM producer locations and distribution.</p>
+                            <span>View Map <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                        {{/link-to}}
+                    </div>
+                    <div class="col-12 col-md-6 item permissions">
+                        {{#link-to "rem.permissions" class="d-block"}}
+                            <strong>REM Account Permissions</strong>
+                            <p>See a detailed breakdown of your REM account permissions.</p>
+                            <span>View Permissions <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="path" d="M2.4 12h19.2M13.7 6l4 3 3.9 3-3.9 3-4 3"/></svg></span>
+                        {{/link-to}}
+                    </div>
                 </div>
             </div>
         </div>
