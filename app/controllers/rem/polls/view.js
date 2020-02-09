@@ -71,8 +71,10 @@ export default Controller.extend({
                     }
                 } else {
                     if(poll.options[i].votes === 0) {
+                        results[i].votes = 0;
                         results[i].percent = 0;
                     } else {
+                        results[i].votes = poll.options[i].votes;
                         results[i].percent = poll.options[i].votes / total * 100;
                     }
                 }
