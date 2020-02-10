@@ -114,12 +114,17 @@ export default Controller.extend({
         let datasets = [];
         let tally = [];
         let startDate = moment.utc(poll.created_at).subtract(1, 'days');
+        let stopDate = moment.utc(votes.lastObject.created_at);
 
         if(votes.length > 0) {
-            const stopDate = moment(votes.lastObject.created_at).utc();
+            for(let i=0; i<votes.length; i++) {
+                if(moment.utc(votes[i].created_at).isAfter(stopDate)) {
+                    stopDate = moment.utc(votes[i].created_at);
+                }
+            }
 
             // x axis of days
-            while (startDate <= stopDate) {
+            while (startDate.isSameOrBefore(stopDate, 'day')) {
                 days.push(startDate.format('YYYY-MM-DD'));
                 startDate.add(1, 'days');
             }
@@ -133,7 +138,7 @@ export default Controller.extend({
 
                 for(let v=0; v<votes.length; v++) {
 
-                    let vote_date = moment(votes[v].created_at).utc().format('YYYY-MM-DD');
+                    let vote_date = moment.utc(votes[v].created_at).format('YYYY-MM-DD');
 
                     // console.log(poll.options[i], " option");
                     // console.log(votes[v], " vote");
@@ -141,11 +146,11 @@ export default Controller.extend({
                     // console.log(i === votes[v].option_id, vote_date === days[d]);
                     // console.log("-----------");
 
-                    if(!tally.includes(option)) {
+                    if(tally[option] === undefined) {
                         tally[option] = 0;
                     }
 
-                    if(!datasets[option]) {
+                    if(datasets[option] === undefined) {
                         datasets[option] = {
                             label: option,
                             data: [],
@@ -157,7 +162,7 @@ export default Controller.extend({
 
                     if(i === votes[v].option_id && vote_date === days[d]) {
                         tally[option] += votes[v].weight === 1 ? 1 : Math.floor(votes[v].weight / 10000);
-                        datasets[option].data.push(tally[option]);
+                        datasets[option].data[d] = tally[option];
                         day_has_votes = true;
                     }
 
