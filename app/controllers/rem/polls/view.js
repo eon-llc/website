@@ -114,7 +114,7 @@ export default Controller.extend({
         let datasets = [];
         let tally = [];
         let startDate = moment.utc(poll.created_at).subtract(1, 'days');
-        let stopDate = moment.utc(votes.lastObject.created_at);
+        let stopDate = votes.lastObject ? moment.utc(votes.lastObject.created_at) : moment.utc(poll.created_at);
 
         if(votes.length > 0) {
             for(let i=0; i<votes.length; i++) {
