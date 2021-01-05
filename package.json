@@ -22,7 +22,7 @@
     "@ember/optional-features": "^1.1.0",
     "@glimmer/component": "^1.0.0",
     "@mdi/svg": "^4.8.95",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^3.1.0",
